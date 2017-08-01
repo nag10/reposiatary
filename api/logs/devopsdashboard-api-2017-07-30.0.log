@@ -1,0 +1,744 @@
+2017-07-30 05:56:03,774 ERROR c.c.d.service.ServiceServiceImpl - null failed with null
+2017-07-30 05:56:04,709 INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2017-07-30 05:56:04,754 INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@1817f1eb, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@767e20cf, org.springframework.test.context.support.DirtiesContextTestExecutionListener@3a3e78f, org.springframework.test.context.transaction.TransactionalTestExecutionListener@301ec38b, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@17a1e4ca]
+2017-07-30 05:56:04,920 INFO  o.s.w.c.s.GenericWebApplicationContext - Refreshing org.springframework.web.context.support.GenericWebApplicationContext@2b0f373b: startup date [Sun Jul 30 05:56:04 UTC 2017]; root of context hierarchy
+2017-07-30 05:56:05,734 INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-07-30 05:56:06,730 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/collector/item/type/{collectorType}],methods=[GET],produces=[application/json]}" onto public java.util.List<com.capitalone.dashboard.model.CollectorItem> com.capitalone.dashboard.rest.CollectorController.collectorItemsByType(com.capitalone.dashboard.model.CollectorType)
+2017-07-30 05:56:06,731 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/collector/item/{id}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.model.CollectorItem> com.capitalone.dashboard.rest.CollectorController.getCollectorItem(org.bson.types.ObjectId)
+2017-07-30 05:56:06,732 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/collector/type/{collectorType}],methods=[GET],produces=[application/json]}" onto public java.util.List<com.capitalone.dashboard.model.Collector> com.capitalone.dashboard.rest.CollectorController.collectorsByType(com.capitalone.dashboard.model.CollectorType)
+2017-07-30 05:56:06,733 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/collector],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public com.capitalone.dashboard.model.Collector com.capitalone.dashboard.rest.CollectorController.createCollector(com.capitalone.dashboard.request.CollectorRequest)
+2017-07-30 05:56:06,733 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/collector/item],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.model.CollectorItem> com.capitalone.dashboard.rest.CollectorController.createCollectorItem(com.capitalone.dashboard.request.CollectorItemRequest)
+2017-07-30 05:56:06,734 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/deploy],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.String> com.capitalone.dashboard.rest.DeployController.createBuild(com.capitalone.dashboard.request.DeployDataCreateRequest) throws com.capitalone.dashboard.misc.HygieiaException
+2017-07-30 05:56:06,741 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/deploy/status/application/{applicationName}],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.util.List<com.capitalone.dashboard.model.deploy.Environment>> com.capitalone.dashboard.rest.DeployController.deployStatus(java.lang.String)
+2017-07-30 05:56:06,741 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/deploy/status/{componentId}],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.util.List<com.capitalone.dashboard.model.deploy.Environment>> com.capitalone.dashboard.rest.DeployController.deployStatus(org.bson.types.ObjectId)
+2017-07-30 05:56:06,743 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}/service],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.util.Map<java.lang.String, java.util.List<com.capitalone.dashboard.model.Service>>> com.capitalone.dashboard.rest.ServiceController.dashboardServices(org.bson.types.ObjectId)
+2017-07-30 05:56:06,751 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}/dependent-service/{serviceId}],methods=[POST],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.model.Service> com.capitalone.dashboard.rest.ServiceController.addDependentService(org.bson.types.ObjectId,org.bson.types.ObjectId)
+2017-07-30 05:56:06,751 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}/dependent-service/{serviceId}],methods=[DELETE]}" onto public org.springframework.http.ResponseEntity<java.lang.Void> com.capitalone.dashboard.rest.ServiceController.deleteDependentService(org.bson.types.ObjectId,org.bson.types.ObjectId)
+2017-07-30 05:56:06,752 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/service],methods=[GET],produces=[application/json]}" onto public java.lang.Iterable<com.capitalone.dashboard.model.Service> com.capitalone.dashboard.rest.ServiceController.services()
+2017-07-30 05:56:06,752 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}/service],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.model.Service> com.capitalone.dashboard.rest.ServiceController.createService(org.bson.types.ObjectId,com.capitalone.dashboard.request.ServiceRequest)
+2017-07-30 05:56:06,752 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}/service/{serviceId}],methods=[PUT],consumes=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.model.Service> com.capitalone.dashboard.rest.ServiceController.updateService(org.bson.types.ObjectId,org.bson.types.ObjectId,com.capitalone.dashboard.request.ServiceRequest)
+2017-07-30 05:56:06,753 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}/service/{serviceId}],methods=[DELETE]}" onto public org.springframework.http.ResponseEntity<java.lang.Void> com.capitalone.dashboard.rest.ServiceController.deleteService(org.bson.types.ObjectId,org.bson.types.ObjectId)
+2017-07-30 05:56:06,753 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}/service/{serviceId}],methods=[GET]}" onto public org.springframework.http.ResponseEntity<java.lang.Void> com.capitalone.dashboard.rest.ServiceController.refreshService(org.bson.types.ObjectId,org.bson.types.ObjectId)
+2017-07-30 05:56:06,753 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}/service/{serviceId}],methods=[GET],consumes=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.model.Service> com.capitalone.dashboard.rest.ServiceController.refreshService(org.bson.types.ObjectId,org.bson.types.ObjectId,com.capitalone.dashboard.request.ServiceRequest)
+2017-07-30 05:56:06,757 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/commit/github/v3],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.String> com.capitalone.dashboard.rest.ZCommitController.createGitHubv3(org.json.simple.JSONObject) throws org.json.simple.parser.ParseException,com.capitalone.dashboard.misc.HygieiaException
+2017-07-30 05:56:06,757 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/commit],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.lang.Iterable<com.capitalone.dashboard.model.Commit>> com.capitalone.dashboard.rest.ZCommitController.search(com.capitalone.dashboard.request.CommitRequest)
+2017-07-30 05:56:06,759 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/volume/details/component/{componentId}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudVolumeStorage>> com.capitalone.dashboard.rest.CloudVolumeController.getVolumeDetailsByComponentId(java.lang.String)
+2017-07-30 05:56:06,761 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/volume/refresh],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<java.lang.String>> com.capitalone.dashboard.rest.CloudVolumeController.refreshVolumes(com.capitalone.dashboard.request.CloudVolumeListRefreshRequest)
+2017-07-30 05:56:06,764 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/volume/create],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.List<java.lang.String>> com.capitalone.dashboard.rest.CloudVolumeController.upsertVolume(java.util.List<com.capitalone.dashboard.request.CloudVolumeCreateRequest>)
+2017-07-30 05:56:06,769 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/volume/details/volumes/{volumeIds}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudVolumeStorage>> com.capitalone.dashboard.rest.CloudVolumeController.getVolumeDetailsByVolumeIds(java.util.List<java.lang.String>)
+2017-07-30 05:56:06,769 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/volume/details/tags],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudVolumeStorage>> com.capitalone.dashboard.rest.CloudVolumeController.getVolumeDetailsByTags(java.util.List<com.capitalone.dashboard.model.NameValue>)
+2017-07-30 05:56:06,769 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/volume/details/account/{accountNumber}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudVolumeStorage>> com.capitalone.dashboard.rest.CloudVolumeController.getVolumeDetailsByAccount(java.lang.String)
+2017-07-30 05:56:06,770 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/volume/aggregate/component/{componentId}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.response.CloudVolumeAggregatedResponse> com.capitalone.dashboard.rest.CloudVolumeController.getVolumeAggregatedData(java.lang.String)
+2017-07-30 05:56:06,770 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/volume/details/instanceIds],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudVolumeStorage>> com.capitalone.dashboard.rest.CloudVolumeController.getVolumeDetailsByInstanceIds(java.util.List<java.lang.String>)
+2017-07-30 05:56:06,777 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/virtualnetwork/details/component/{componentId}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudVirtualNetwork>> com.capitalone.dashboard.rest.CloudVirtualNetworkController.getVirtualNetworkDetails(org.bson.types.ObjectId)
+2017-07-30 05:56:06,777 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/virtualnetwork/details/netrwork/{virtualNetworkId}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.model.CloudVirtualNetwork> com.capitalone.dashboard.rest.CloudVirtualNetworkController.getVirtualNetworkDetails(java.lang.String)
+2017-07-30 05:56:06,778 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/virtualnetwork/create],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.List<org.bson.types.ObjectId>> com.capitalone.dashboard.rest.CloudVirtualNetworkController.upsertVirtualNetwork(java.util.List<com.capitalone.dashboard.model.CloudVirtualNetwork>)
+2017-07-30 05:56:06,778 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/virtualnetwork/aggregate/component/{componentId}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.response.CloudVirtualNetworkAggregatedResponse> com.capitalone.dashboard.rest.CloudVirtualNetworkController.getVirtualNetworkAggregatedData(org.bson.types.ObjectId)
+2017-07-30 05:56:06,781 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/config],methods=[GET],produces=[application/json]}" onto public com.captialone.dashboard.response.SystemConfigResponse com.capitalone.dashboard.rest.SystemConfigController.getSystemConfig()
+2017-07-30 05:56:06,781 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/encrypt/{message}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.String> com.capitalone.dashboard.rest.EncryptionController.encrypt(com.capitalone.dashboard.request.EncryptionRequest)
+2017-07-30 05:56:06,787 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/instance/details/account/{accountNumber}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudInstance>> com.capitalone.dashboard.rest.CloudInstanceController.getInstanceDetailsByAccount(java.lang.String)
+2017-07-30 05:56:06,788 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/instance/create],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.List<java.lang.String>> com.capitalone.dashboard.rest.CloudInstanceController.upsertInstance(java.util.List<com.capitalone.dashboard.request.CloudInstanceCreateRequest>) throws com.capitalone.dashboard.misc.HygieiaException
+2017-07-30 05:56:06,788 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/instance/refresh],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<java.lang.String>> com.capitalone.dashboard.rest.CloudInstanceController.refreshInstances(com.capitalone.dashboard.request.CloudInstanceListRefreshRequest)
+2017-07-30 05:56:06,789 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/instance/details/instances/{instanceIds}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudInstance>> com.capitalone.dashboard.rest.CloudInstanceController.getInstanceDetailsByInstanceIds(java.util.List<java.lang.String>)
+2017-07-30 05:56:06,789 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/instance/details/tags],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudInstance>> com.capitalone.dashboard.rest.CloudInstanceController.getInstanceDetailsByTags(java.util.List<com.capitalone.dashboard.model.NameValue>)
+2017-07-30 05:56:06,791 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/instance/details/component/{componentId}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudInstance>> com.capitalone.dashboard.rest.CloudInstanceController.getInstanceDetailsByComponentId(java.lang.String)
+2017-07-30 05:56:06,791 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/instance/history/account/{accountNumber}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudInstanceHistory>> com.capitalone.dashboard.rest.CloudInstanceController.getInstanceAggregatedDataByAccount(java.lang.String)
+2017-07-30 05:56:06,794 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/ping],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.Boolean> com.capitalone.dashboard.rest.PingController.ping()
+2017-07-30 05:56:06,798 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/appinfo],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.String> com.capitalone.dashboard.rest.PingController.getAppInfo()
+2017-07-30 05:56:06,799 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/artifact],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.String> com.capitalone.dashboard.rest.BinaryArtifactController.create(com.capitalone.dashboard.request.BinaryArtifactCreateRequest) throws com.capitalone.dashboard.misc.HygieiaException
+2017-07-30 05:56:06,801 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/artifact],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.lang.Iterable<com.capitalone.dashboard.model.BinaryArtifact>> com.capitalone.dashboard.rest.BinaryArtifactController.search(com.capitalone.dashboard.request.BinaryArtifactSearchRequest)
+2017-07-30 05:56:06,804 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}/widget],methods=[POST],consumes=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.model.WidgetResponse> com.capitalone.dashboard.rest.DashboardController.addWidget(org.bson.types.ObjectId,com.capitalone.dashboard.request.WidgetRequest)
+2017-07-30 05:56:06,811 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}/widget/{widgetId}],methods=[PUT],consumes=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.model.WidgetResponse> com.capitalone.dashboard.rest.DashboardController.updateWidget(org.bson.types.ObjectId,org.bson.types.ObjectId,com.capitalone.dashboard.request.WidgetRequest)
+2017-07-30 05:56:06,812 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard],methods=[GET],produces=[application/json]}" onto public java.lang.Iterable<com.capitalone.dashboard.model.Dashboard> com.capitalone.dashboard.rest.DashboardController.dashboards()
+2017-07-30 05:56:06,812 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.Dashboard com.capitalone.dashboard.rest.DashboardController.getDashboard(org.bson.types.ObjectId)
+2017-07-30 05:56:06,812 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}],methods=[DELETE]}" onto public org.springframework.http.ResponseEntity<java.lang.Void> com.capitalone.dashboard.rest.DashboardController.deleteDashboard(org.bson.types.ObjectId)
+2017-07-30 05:56:06,813 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/mydashboard],methods=[GET],produces=[application/json]}" onto public java.util.List<com.capitalone.dashboard.model.Dashboard> com.capitalone.dashboard.rest.DashboardController.getOwnedDashboards(java.lang.String)
+2017-07-30 05:56:06,814 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/myowner/{dashboardtitle}],methods=[GET],produces=[application/json]}" onto public java.lang.String com.capitalone.dashboard.rest.DashboardController.getDashboardOwner(java.lang.String)
+2017-07-30 05:56:06,814 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.model.Dashboard> com.capitalone.dashboard.rest.DashboardController.createDashboard(com.capitalone.dashboard.request.DashboardRequest)
+2017-07-30 05:56:06,815 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/{id}],methods=[PUT],consumes=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.String> com.capitalone.dashboard.rest.DashboardController.updateDashboard(org.bson.types.ObjectId,com.capitalone.dashboard.request.DashboardRequest)
+2017-07-30 05:56:06,815 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/dashboard/rename/{id}],methods=[PUT],consumes=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.String> com.capitalone.dashboard.rest.DashboardController.renameDashboard(org.bson.types.ObjectId,com.capitalone.dashboard.request.DashboardRequest)
+2017-07-30 05:56:06,817 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/quality/test],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.String> com.capitalone.dashboard.rest.TestResultController.createTest(com.capitalone.dashboard.request.TestDataCreateRequest) throws com.capitalone.dashboard.misc.HygieiaException
+2017-07-30 05:56:06,819 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/quality/test],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.lang.Iterable<com.capitalone.dashboard.model.TestResult>> com.capitalone.dashboard.rest.TestResultController.qualityData(com.capitalone.dashboard.request.TestResultRequest)
+2017-07-30 05:56:06,819 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/pipeline],methods=[GET],produces=[application/json]}" onto public java.lang.Iterable<com.capitalone.dashboard.model.PipelineResponse> com.capitalone.dashboard.rest.PipelineController.searchPipelines(com.capitalone.dashboard.request.PipelineSearchRequest)
+2017-07-30 05:56:06,822 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/scope/{scopeId}],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.util.List<com.capitalone.dashboard.model.Scope>> com.capitalone.dashboard.rest.ScopeController.scope(java.lang.String,java.lang.String)
+2017-07-30 05:56:06,823 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/scope],methods=[GET],produces=[application/json]}" onto public java.util.List<com.capitalone.dashboard.model.Scope> com.capitalone.dashboard.rest.ScopeController.allScopes()
+2017-07-30 05:56:06,824 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/authenticateUser],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.Boolean> com.capitalone.dashboard.rest.AuthenticationController.authenticateUser(com.capitalone.dashboard.request.AuthenticationRequest)
+2017-07-30 05:56:06,830 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/registerUser],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.String> com.capitalone.dashboard.rest.AuthenticationController.registerUser(com.capitalone.dashboard.request.AuthenticationRequest)
+2017-07-30 05:56:06,830 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/updateUser],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.String> com.capitalone.dashboard.rest.AuthenticationController.updateUser(com.capitalone.dashboard.request.AuthenticationRequest)
+2017-07-30 05:56:06,832 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/feature],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.util.List<com.capitalone.dashboard.model.Feature>> com.capitalone.dashboard.rest.FeatureController.story(java.lang.String,java.lang.String)
+2017-07-30 05:56:06,833 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/feature/{teamId}],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.util.List<com.capitalone.dashboard.model.Feature>> com.capitalone.dashboard.rest.FeatureController.relevantStories(java.lang.String,java.util.Optional<java.lang.String>,java.lang.String,java.lang.String)
+2017-07-30 05:56:06,833 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/iteration/{teamId}],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.util.List<com.capitalone.dashboard.model.Feature>> com.capitalone.dashboard.rest.FeatureController.currentSprintDetail(java.lang.String,java.util.Optional<java.lang.String>,java.lang.String,java.lang.String)
+2017-07-30 05:56:06,837 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/feature/estimates/super/{teamId}],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.util.List<com.capitalone.dashboard.model.Feature>> com.capitalone.dashboard.rest.FeatureController.featureEpics(java.lang.String,java.util.Optional<java.lang.String>,java.util.Optional<java.lang.String>,java.lang.String,java.lang.String)
+2017-07-30 05:56:06,838 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/feature/estimates/aggregatedsprints/{teamId}],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<com.capitalone.dashboard.model.SprintEstimate> com.capitalone.dashboard.rest.FeatureController.featureAggregatedSprintEstimates(java.lang.String,java.util.Optional<java.lang.String>,java.util.Optional<java.lang.String>,java.lang.String,java.lang.String)
+2017-07-30 05:56:06,839 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/feature/estimates/total/{teamId}],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.util.List<com.capitalone.dashboard.model.Feature>> com.capitalone.dashboard.rest.FeatureController.featureTotalEstimate(java.util.Optional<java.lang.String>,java.util.Optional<java.lang.String>,java.lang.String,java.lang.String)
+2017-07-30 05:56:06,839 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/feature/estimates/wip/{teamId}],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.util.List<com.capitalone.dashboard.model.Feature>> com.capitalone.dashboard.rest.FeatureController.featureInProgressEstimate(java.util.Optional<java.lang.String>,java.util.Optional<java.lang.String>,java.lang.String,java.lang.String)
+2017-07-30 05:56:06,840 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/feature/estimates/done/{teamId}],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.util.List<com.capitalone.dashboard.model.Feature>> com.capitalone.dashboard.rest.FeatureController.featureDoneEstimate(java.util.Optional<java.lang.String>,java.util.Optional<java.lang.String>,java.lang.String,java.lang.String)
+2017-07-30 05:56:06,844 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/subnet/create],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.List<java.lang.String>> com.capitalone.dashboard.rest.CloudSubnetController.upsertSubNetwork(java.util.List<com.capitalone.dashboard.request.CloudSubnetCreateRequest>)
+2017-07-30 05:56:06,847 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/subnet/details/subnets/{subnetIds}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudSubNetwork>> com.capitalone.dashboard.rest.CloudSubnetController.getSubNetworkDetailsBySubnetIds(java.util.List<java.lang.String>)
+2017-07-30 05:56:06,848 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/subnet/details/account/{accountNumber}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudSubNetwork>> com.capitalone.dashboard.rest.CloudSubnetController.getSubNetworkDetailsByAccount(java.lang.String)
+2017-07-30 05:56:06,852 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/subnet/refresh],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<java.lang.String>> com.capitalone.dashboard.rest.CloudSubnetController.refreshInstances(com.capitalone.dashboard.request.CloudInstanceListRefreshRequest)
+2017-07-30 05:56:06,852 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/subnet/details/component/{componentId}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudSubNetwork>> com.capitalone.dashboard.rest.CloudSubnetController.getSubNetworkDetailsByComponentId(java.lang.String)
+2017-07-30 05:56:06,852 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/subnet/aggregate/{componentId}],methods=[GET],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<com.capitalone.dashboard.response.CloudSubNetworkAggregatedResponse> com.capitalone.dashboard.rest.CloudSubnetController.getSubNetworkAggregatedData(java.lang.String)
+2017-07-30 05:56:06,853 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/cloud/subnet/details/tags],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.util.Collection<com.capitalone.dashboard.model.CloudSubNetwork>> com.capitalone.dashboard.rest.CloudSubnetController.getSubNetworkDetailsByTag(java.util.List<com.capitalone.dashboard.model.NameValue>)
+2017-07-30 05:56:06,855 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/quality],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.lang.Iterable<com.capitalone.dashboard.model.CodeQuality>> com.capitalone.dashboard.rest.CodeQualityController.qualityData(com.capitalone.dashboard.request.CodeQualityRequest)
+2017-07-30 05:56:06,856 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/quality/static-analysis],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.lang.Iterable<com.capitalone.dashboard.model.CodeQuality>> com.capitalone.dashboard.rest.CodeQualityController.qualityStaticAnalysis(com.capitalone.dashboard.request.CodeQualityRequest)
+2017-07-30 05:56:06,857 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/quality/static-analysis],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.String> com.capitalone.dashboard.rest.CodeQualityController.createStaticAnanlysis(com.capitalone.dashboard.request.CodeQualityCreateRequest) throws com.capitalone.dashboard.misc.HygieiaException
+2017-07-30 05:56:06,857 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/quality/security-analysis],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.lang.Iterable<com.capitalone.dashboard.model.CodeQuality>> com.capitalone.dashboard.rest.CodeQualityController.qualitySecurityAnalysis(com.capitalone.dashboard.request.CodeQualityRequest)
+2017-07-30 05:56:06,858 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/build],methods=[GET],produces=[application/json]}" onto public com.capitalone.dashboard.model.DataResponse<java.lang.Iterable<com.capitalone.dashboard.model.Build>> com.capitalone.dashboard.rest.BuildController.builds(com.capitalone.dashboard.request.BuildSearchRequest)
+2017-07-30 05:56:06,862 INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/build],methods=[POST],consumes=[application/json],produces=[application/json]}" onto public org.springframework.http.ResponseEntity<java.lang.String> com.capitalone.dashboard.rest.BuildController.createBuild(com.capitalone.dashboard.request.BuildDataCreateRequest) throws com.capitalone.dashboard.misc.HygieiaException
+2017-07-30 05:56:06,916 INFO  o.s.w.s.h.SimpleUrlHandlerMapping - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-07-30 05:56:06,918 INFO  o.s.w.s.h.SimpleUrlHandlerMapping - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler]
+2017-07-30 05:56:07,214 INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.1.3.Final
+2017-07-30 05:56:07,354 INFO  o.s.w.s.m.m.a.RequestMappingHandlerAdapter - Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@2b0f373b: startup date [Sun Jul 30 05:56:04 UTC 2017]; root of context hierarchy
+2017-07-30 05:56:07,438 INFO  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Detected @ExceptionHandler methods in restApiExceptionHandler
+2017-07-30 05:56:07,529 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:07,530 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:07,561 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 30 ms
+2017-07-30 05:56:07,788 INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2017-07-30 05:56:07,791 INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@3c904f1e, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4eb30d44, org.springframework.test.context.support.DirtiesContextTestExecutionListener@d56aaa6, org.springframework.test.context.transaction.TransactionalTestExecutionListener@6972c30a, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@57a48985]
+2017-07-30 05:56:07,809 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:07,811 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:07,812 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:07,966 WARN  c.c.d.rest.RestApiExceptionHandler - Bad Request - bind exception: 
+org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Field error in object 'codeQualityRequest' on field 'componentId': rejected value [null]; codes [NotNull.codeQualityRequest.componentId,NotNull.componentId,NotNull.org.bson.types.ObjectId,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [codeQualityRequest.componentId,componentId]; arguments []; default message [componentId]]; default message [may not be null]
+	at org.springframework.web.method.annotation.ModelAttributeMethodProcessor.resolveArgument(ModelAttributeMethodProcessor.java:113) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:77) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:162) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:129) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:110) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandleMethod(RequestMappingHandlerAdapter.java:776) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:705) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:959) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:893) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:967) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:858) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:622) ~[tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:843) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:65) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729) ~[tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:167) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:134) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:144) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at com.capitalone.dashboard.rest.CodeQualityControllerTest.builds_noComponentId_badRequest(CodeQualityControllerTest.java:139) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) [junit-4.12.jar:4.12]
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:82) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:224) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103) [surefire-booter-2.17.jar:2.17]
+2017-07-30 05:56:07,981 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:07,981 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:07,989 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 8 ms
+2017-07-30 05:56:08,067 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,068 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,069 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,102 WARN  c.c.d.rest.RestApiExceptionHandler - Bad Request - bind exception: 
+org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Field error in object 'codeQualityCreateRequest' on field 'projectName': rejected value [null]; codes [NotNull.codeQualityCreateRequest.projectName,NotNull.projectName,NotNull.java.lang.String,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [codeQualityCreateRequest.projectName,projectName]; arguments []; default message [projectName]]; default message [may not be null]
+	at com.capitalone.dashboard.rest.RestApiExceptionHandler.handleMethodArgumentNotValid(RestApiExceptionHandler.java:55) [classes/:na]
+	at org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler.handleException(ResponseEntityExceptionHandler.java:156) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:221) [spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:137) [spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:110) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.doResolveHandlerMethodException(ExceptionHandlerExceptionResolver.java:362) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionResolver.doResolveException(AbstractHandlerMethodExceptionResolver.java:60) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver.resolveException(AbstractHandlerExceptionResolver.java:138) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(HandlerExceptionResolverComposite.java:74) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.processHandlerException(DispatcherServlet.java:1183) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.processHandlerException(TestDispatcherServlet.java:112) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1020) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:971) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:893) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:967) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:869) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648) [tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:843) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:65) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729) [tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:167) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:134) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:144) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at com.capitalone.dashboard.rest.CodeQualityControllerTest.insertStaticAnalysisTest2(CodeQualityControllerTest.java:163) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) [junit-4.12.jar:4.12]
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:82) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:224) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103) [surefire-booter-2.17.jar:2.17]
+2017-07-30 05:56:08,111 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,111 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,113 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 2 ms
+2017-07-30 05:56:08,128 ERROR c.c.d.rest.RestApiExceptionHandler - This is bad
+com.capitalone.dashboard.misc.HygieiaException: This is bad
+	at com.capitalone.dashboard.rest.CodeQualityController.createStaticAnanlysis(CodeQualityController.java:55) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:221) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:137) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:110) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandleMethod(RequestMappingHandlerAdapter.java:776) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:705) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:959) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:893) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:967) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:869) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648) ~[tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:843) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:65) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729) ~[tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:167) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:134) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:144) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at com.capitalone.dashboard.rest.CodeQualityControllerTest.insertStaticAnalysisTest3(CodeQualityControllerTest.java:176) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) [junit-4.12.jar:4.12]
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:82) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:224) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103) [surefire-booter-2.17.jar:2.17]
+2017-07-30 05:56:08,149 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,152 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,157 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 5 ms
+2017-07-30 05:56:08,193 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,200 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,202 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,222 INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2017-07-30 05:56:08,223 INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@3a5c2626, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@e48bf9a, org.springframework.test.context.support.DirtiesContextTestExecutionListener@7fb33394, org.springframework.test.context.transaction.TransactionalTestExecutionListener@41bf79da, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@1a891add]
+2017-07-30 05:56:08,234 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,239 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,241 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 2 ms
+2017-07-30 05:56:08,276 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,277 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,283 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 5 ms
+2017-07-30 05:56:08,322 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,328 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,330 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,375 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,377 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,378 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,403 WARN  c.c.d.rest.RestApiExceptionHandler - Bad Request - bind exception: 
+org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 4 errors
+Field error in object 'dashboardRequest' on field 'title': rejected value [null]; codes [NotNull.dashboardRequest.title,NotNull.title,NotNull.java.lang.String,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [dashboardRequest.title,title]; arguments []; default message [title]]; default message [may not be null]
+Field error in object 'dashboardRequest' on field 'owner': rejected value [null]; codes [NotNull.dashboardRequest.owner,NotNull.owner,NotNull.java.lang.String,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [dashboardRequest.owner,owner]; arguments []; default message [owner]]; default message [may not be null]
+Field error in object 'dashboardRequest' on field 'type': rejected value [null]; codes [NotNull.dashboardRequest.type,NotNull.type,NotNull.java.lang.String,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [dashboardRequest.type,type]; arguments []; default message [type]]; default message [may not be null]
+Field error in object 'dashboardRequest' on field 'template': rejected value [null]; codes [NotNull.dashboardRequest.template,NotNull.template,NotNull.java.lang.String,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [dashboardRequest.template,template]; arguments []; default message [template]]; default message [may not be null]
+	at com.capitalone.dashboard.rest.RestApiExceptionHandler.handleMethodArgumentNotValid(RestApiExceptionHandler.java:55) [classes/:na]
+	at org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler.handleException(ResponseEntityExceptionHandler.java:156) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:221) [spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:137) [spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:110) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.doResolveHandlerMethodException(ExceptionHandlerExceptionResolver.java:362) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionResolver.doResolveException(AbstractHandlerMethodExceptionResolver.java:60) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver.resolveException(AbstractHandlerExceptionResolver.java:138) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(HandlerExceptionResolverComposite.java:74) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.processHandlerException(DispatcherServlet.java:1183) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.processHandlerException(TestDispatcherServlet.java:112) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1020) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:971) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:893) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:967) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:869) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648) [tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:843) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:65) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729) [tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:167) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:134) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:144) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at com.capitalone.dashboard.rest.DashboardControllerTest.createDashboard_nothingProvided_badRequest(DashboardControllerTest.java:83) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) [junit-4.12.jar:4.12]
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:82) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:224) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103) [surefire-booter-2.17.jar:2.17]
+2017-07-30 05:56:08,415 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,415 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,418 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 3 ms
+2017-07-30 05:56:08,432 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,436 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,438 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,476 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,480 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,483 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 2 ms
+2017-07-30 05:56:08,502 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,502 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,504 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 2 ms
+2017-07-30 05:56:08,511 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,514 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,518 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 4 ms
+2017-07-30 05:56:08,534 INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2017-07-30 05:56:08,536 INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2324bfe7, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@112d1c8e, org.springframework.test.context.support.DirtiesContextTestExecutionListener@3d49fd31, org.springframework.test.context.transaction.TransactionalTestExecutionListener@4016ccc1, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@46cb98a3]
+2017-07-30 05:56:08,543 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,543 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,549 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 5 ms
+2017-07-30 05:56:08,585 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,585 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,586 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,614 INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2017-07-30 05:56:08,615 INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@67594471, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@756b58a7, org.springframework.test.context.support.DirtiesContextTestExecutionListener@2cc04358, org.springframework.test.context.transaction.TransactionalTestExecutionListener@68b58644, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@45e22def]
+2017-07-30 05:56:08,619 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,624 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,626 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,646 WARN  c.c.d.rest.RestApiExceptionHandler - Bad Request - bind exception: 
+org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Field error in object 'commitRequest' on field 'componentId': rejected value [null]; codes [NotNull.commitRequest.componentId,NotNull.componentId,NotNull.org.bson.types.ObjectId,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [commitRequest.componentId,componentId]; arguments []; default message [componentId]]; default message [may not be null]
+	at org.springframework.web.method.annotation.ModelAttributeMethodProcessor.resolveArgument(ModelAttributeMethodProcessor.java:113) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:77) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:162) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:129) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:110) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandleMethod(RequestMappingHandlerAdapter.java:776) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:705) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:959) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:893) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:967) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:858) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:622) ~[tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:843) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:65) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729) ~[tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:167) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:134) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:144) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at com.capitalone.dashboard.rest.ZCommitControllerTest.commits_noComponentId_badRequest(ZCommitControllerTest.java:74) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) [junit-4.12.jar:4.12]
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:82) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:224) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103) [surefire-booter-2.17.jar:2.17]
+2017-07-30 05:56:08,655 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,656 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,657 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,674 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,674 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,676 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 2 ms
+2017-07-30 05:56:08,692 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,693 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,695 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 2 ms
+2017-07-30 05:56:08,697 ERROR c.c.d.rest.RestApiExceptionHandler - Required request body content is missing: org.springframework.web.method.HandlerMethod$HandlerMethodParameter@c958754
+2017-07-30 05:56:08,712 INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2017-07-30 05:56:08,717 INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@211febf3, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@3bd3d05e, org.springframework.test.context.support.DirtiesContextTestExecutionListener@6aba5d30, org.springframework.test.context.transaction.TransactionalTestExecutionListener@61d34b4, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@588307f7]
+2017-07-30 05:56:08,730 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,730 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,731 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,838 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,838 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,839 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,858 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,862 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,863 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,871 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,872 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,876 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 4 ms
+2017-07-30 05:56:08,909 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,910 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,916 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 5 ms
+2017-07-30 05:56:08,931 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,934 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,936 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,959 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,960 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,962 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:08,970 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,970 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,974 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 3 ms
+2017-07-30 05:56:08,986 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:08,986 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:08,987 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,001 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,004 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,007 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 2 ms
+2017-07-30 05:56:09,017 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,018 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,024 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 6 ms
+2017-07-30 05:56:09,034 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,035 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,041 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,043 ERROR c.c.d.rest.RestApiExceptionHandler - Could not read document: Can not instantiate value of type [collection type; class java.util.ArrayList, contains [simple type, class com.capitalone.dashboard.request.CloudInstanceCreateRequest]] from String value (''); no single-String constructor/factory method
+ at [Source: java.io.PushbackInputStream@642505c7; line: 1, column: 1]; nested exception is com.fasterxml.jackson.databind.JsonMappingException: Can not instantiate value of type [collection type; class java.util.ArrayList, contains [simple type, class com.capitalone.dashboard.request.CloudInstanceCreateRequest]] from String value (''); no single-String constructor/factory method
+ at [Source: java.io.PushbackInputStream@642505c7; line: 1, column: 1]
+2017-07-30 05:56:09,063 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,063 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,064 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,078 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,080 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,081 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,083 ERROR c.c.d.rest.RestApiExceptionHandler - Could not read document: Can not instantiate value of type [simple type, class com.capitalone.dashboard.request.CloudInstanceListRefreshRequest] from String value ('stuff'); no single-String constructor/factory method
+ at [Source: java.io.PushbackInputStream@6428591a; line: 1, column: 1]; nested exception is com.fasterxml.jackson.databind.JsonMappingException: Can not instantiate value of type [simple type, class com.capitalone.dashboard.request.CloudInstanceListRefreshRequest] from String value ('stuff'); no single-String constructor/factory method
+ at [Source: java.io.PushbackInputStream@6428591a; line: 1, column: 1]
+2017-07-30 05:56:09,093 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,093 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,095 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 2 ms
+2017-07-30 05:56:09,115 INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2017-07-30 05:56:09,117 INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@5c1f6d57, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@f288c14, org.springframework.test.context.support.DirtiesContextTestExecutionListener@6794ac0b, org.springframework.test.context.transaction.TransactionalTestExecutionListener@7be71476, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@5cb5bb88]
+2017-07-30 05:56:09,128 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,128 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,132 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 4 ms
+2017-07-30 05:56:09,153 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,153 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,154 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,193 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,193 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,194 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,214 INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2017-07-30 05:56:09,215 INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@66c38e51, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@10641c09, org.springframework.test.context.support.DirtiesContextTestExecutionListener@34f392be, org.springframework.test.context.transaction.TransactionalTestExecutionListener@4554de02, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3f9f71ff]
+2017-07-30 05:56:09,221 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,222 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,224 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 2 ms
+2017-07-30 05:56:09,269 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,271 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,273 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 2 ms
+2017-07-30 05:56:09,279 WARN  c.c.d.rest.RestApiExceptionHandler - Bad Request - bind exception: 
+org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Field error in object 'buildSearchRequest' on field 'componentId': rejected value [null]; codes [NotNull.buildSearchRequest.componentId,NotNull.componentId,NotNull.org.bson.types.ObjectId,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [buildSearchRequest.componentId,componentId]; arguments []; default message [componentId]]; default message [may not be null]
+	at org.springframework.web.method.annotation.ModelAttributeMethodProcessor.resolveArgument(ModelAttributeMethodProcessor.java:113) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:77) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:162) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:129) ~[spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:110) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandleMethod(RequestMappingHandlerAdapter.java:776) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:705) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:959) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:893) ~[spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:967) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:858) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:622) ~[tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:843) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:65) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729) ~[tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:167) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:134) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:144) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at com.capitalone.dashboard.rest.BuildControllerTest.builds_noComponentId_badRequest(BuildControllerTest.java:85) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) [junit-4.12.jar:4.12]
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:82) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:224) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103) [surefire-booter-2.17.jar:2.17]
+2017-07-30 05:56:09,289 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,289 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,291 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,330 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,330 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,331 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,352 WARN  c.c.d.rest.RestApiExceptionHandler - Bad Request - bind exception: 
+org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Field error in object 'buildDataCreateRequest' on field 'jobName': rejected value [null]; codes [NotNull.buildDataCreateRequest.jobName,NotNull.jobName,NotNull.java.lang.String,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [buildDataCreateRequest.jobName,jobName]; arguments []; default message [jobName]]; default message [may not be null]
+	at com.capitalone.dashboard.rest.RestApiExceptionHandler.handleMethodArgumentNotValid(RestApiExceptionHandler.java:55) [classes/:na]
+	at org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler.handleException(ResponseEntityExceptionHandler.java:156) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:221) [spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:137) [spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:110) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.doResolveHandlerMethodException(ExceptionHandlerExceptionResolver.java:362) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionResolver.doResolveException(AbstractHandlerMethodExceptionResolver.java:60) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver.resolveException(AbstractHandlerExceptionResolver.java:138) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(HandlerExceptionResolverComposite.java:74) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.processHandlerException(DispatcherServlet.java:1183) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.processHandlerException(TestDispatcherServlet.java:112) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1020) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:971) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:893) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:967) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:869) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648) [tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:843) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:65) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729) [tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:167) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:134) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:144) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at com.capitalone.dashboard.rest.BuildControllerTest.insertBuildBadRequest1(BuildControllerTest.java:108) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) [junit-4.12.jar:4.12]
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:82) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:224) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103) [surefire-booter-2.17.jar:2.17]
+2017-07-30 05:56:09,363 INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2017-07-30 05:56:09,363 INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@53a9fcfd, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@21f459fc, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4d192aef, org.springframework.test.context.transaction.TransactionalTestExecutionListener@1416cf9f, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@84487f4]
+2017-07-30 05:56:09,369 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,369 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,370 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,393 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,394 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,399 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,404 WARN  c.c.d.rest.RestApiExceptionHandler - Bad Request - bind exception: 
+org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Field error in object 'binaryArtifactCreateRequest' on field 'canonicalName': rejected value [null]; codes [NotNull.binaryArtifactCreateRequest.canonicalName,NotNull.canonicalName,NotNull.java.lang.String,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [binaryArtifactCreateRequest.canonicalName,canonicalName]; arguments []; default message [canonicalName]]; default message [may not be null]
+	at com.capitalone.dashboard.rest.RestApiExceptionHandler.handleMethodArgumentNotValid(RestApiExceptionHandler.java:55) [classes/:na]
+	at org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler.handleException(ResponseEntityExceptionHandler.java:156) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:221) [spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:137) [spring-web-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:110) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.doResolveHandlerMethodException(ExceptionHandlerExceptionResolver.java:362) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionResolver.doResolveException(AbstractHandlerMethodExceptionResolver.java:60) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver.resolveException(AbstractHandlerExceptionResolver.java:138) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(HandlerExceptionResolverComposite.java:74) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.processHandlerException(DispatcherServlet.java:1183) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.processHandlerException(TestDispatcherServlet.java:112) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1020) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:971) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:893) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:967) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:869) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648) [tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:843) [spring-webmvc-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:65) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729) [tomcat-embed-core-8.0.23.jar:8.0.23]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:167) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:134) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:144) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at com.capitalone.dashboard.rest.BinaryArtifactControllerTest.insertBuildBadRequest1(BinaryArtifactControllerTest.java:59) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_131]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_131]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_131]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_131]
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) [junit-4.12.jar:4.12]
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) [junit-4.12.jar:4.12]
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:82) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:73) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:224) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163) [spring-test-4.1.7.RELEASE.jar:4.1.7.RELEASE]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124) [surefire-junit4-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153) [surefire-booter-2.17.jar:2.17]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103) [surefire-booter-2.17.jar:2.17]
+2017-07-30 05:56:09,420 INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2017-07-30 05:56:09,421 INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@55a88417, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@18acfe88, org.springframework.test.context.support.DirtiesContextTestExecutionListener@8a2a6a, org.springframework.test.context.transaction.TransactionalTestExecutionListener@772861aa, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@6631cb64]
+2017-07-30 05:56:09,433 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,434 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,435 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,539 INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2017-07-30 05:56:09,540 INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@4eb1c69, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@73d3e555, org.springframework.test.context.support.DirtiesContextTestExecutionListener@2b037cfc, org.springframework.test.context.transaction.TransactionalTestExecutionListener@44924587, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@18460128]
+2017-07-30 05:56:09,545 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,549 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,550 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,569 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,569 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,570 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,583 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,583 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,584 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,586 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,592 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,594 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 2 ms
+2017-07-30 05:56:09,601 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,601 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,602 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 0 ms
+2017-07-30 05:56:09,622 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,628 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,629 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,641 INFO  o.s.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+2017-07-30 05:56:09,641 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization started
+2017-07-30 05:56:09,642 INFO  o.s.t.w.s.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+2017-07-30 05:56:09,661 INFO  o.s.w.c.s.GenericWebApplicationContext - Closing org.springframework.web.context.support.GenericWebApplicationContext@2b0f373b: startup date [Sun Jul 30 05:56:04 UTC 2017]; root of context hierarchy
