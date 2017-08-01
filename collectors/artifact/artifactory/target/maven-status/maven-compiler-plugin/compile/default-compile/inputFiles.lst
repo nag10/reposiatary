@@ -1,0 +1,10 @@
+/opt/hygiea/Hygieia/collectors/artifact/artifactory/src/main/java/com/capitalone/dashboard/collector/ArtifactoryClient.java
+/opt/hygiea/Hygieia/collectors/artifact/artifactory/src/main/java/com/capitalone/dashboard/model/ArtifactoryCollector.java
+/opt/hygiea/Hygieia/collectors/artifact/artifactory/src/main/java/com/capitalone/dashboard/collector/RestOperationsSupplier.java
+/opt/hygiea/Hygieia/collectors/artifact/artifactory/src/main/java/com/capitalone/dashboard/collector/ArtifactorySettings.java
+/opt/hygiea/Hygieia/collectors/artifact/artifactory/src/main/java/com/capitalone/dashboard/collector/ArtifactoryCollectorTask.java
+/opt/hygiea/Hygieia/collectors/artifact/artifactory/src/main/java/com/capitalone/dashboard/Application.java
+/opt/hygiea/Hygieia/collectors/artifact/artifactory/src/main/java/com/capitalone/dashboard/repository/ArtifactoryCollectorRepository.java
+/opt/hygiea/Hygieia/collectors/artifact/artifactory/src/main/java/com/capitalone/dashboard/model/ArtifactoryRepo.java
+/opt/hygiea/Hygieia/collectors/artifact/artifactory/src/main/java/com/capitalone/dashboard/collector/DefaultArtifactoryClient.java
+/opt/hygiea/Hygieia/collectors/artifact/artifactory/src/main/java/com/capitalone/dashboard/repository/ArtifactoryRepoRepository.java

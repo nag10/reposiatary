@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DefaultJiraClient.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.capitalone.dashboard:jira-feature-collector</a> &gt; <a href="index.source.html" class="el_package">com.capitalone.dashboard.client</a> &gt; <span class="el_source">DefaultJiraClient.java</span></div><h1>DefaultJiraClient.java</h1><pre class="source lang-java linenums">package com.capitalone.dashboard.client;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.net.Authenticator;
+import java.net.InetSocketAddress;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.atlassian.jira.rest.client.api.JiraRestClient;
+import com.atlassian.jira.rest.client.api.RestClientException;
+import com.atlassian.jira.rest.client.api.domain.BasicProject;
+import com.atlassian.jira.rest.client.api.domain.Issue;
+import com.atlassian.jira.rest.client.api.domain.SearchResult;
+import com.atlassian.util.concurrent.Promise;
+import com.capitalone.dashboard.model.Team;
+import com.capitalone.dashboard.util.ClientUtil;
+import com.capitalone.dashboard.util.FeatureSettings;
+import com.capitalone.dashboard.util.FeatureWidgetQueries;
+import com.google.common.collect.Lists;
+
+/**
+ * A client that communicates via REST API calls to jira.
+ * &lt;p&gt;
+ * Latest REST API: https://docs.atlassian.com/jira/REST/latest/
+ * &lt;br&gt;
+ * Created against API for Jira 7.x. Should work with 6.x and 5.x.
+ * 
+ * @author &lt;a href=&quot;mailto:MarkRx@users.noreply.github.com&quot;&gt;MarkRx&lt;/a&gt;
+ */
+@Component
+public class DefaultJiraClient implements JiraClient {
+<span class="nc" id="L61">	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultJiraClient.class);</span>
+<span class="nc" id="L62">	private static final ClientUtil TOOLS = ClientUtil.getInstance();</span>
+	
+	private static final String TEMPO_TEAMS_REST_SUFFIX = &quot;rest/tempo-teams/1/team&quot;;
+	
+<span class="nc" id="L66">	private final DateFormat QUERY_DATE_FORMAT = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);</span>
+	
+<span class="nc" id="L68">	private static final Set&lt;String&gt; DEFAULT_FIELDS = new HashSet&lt;&gt;();</span>
+	static {
+<span class="nc" id="L70">		DEFAULT_FIELDS.add(&quot;*all,-comment,-watches,-worklog,-votes,-reporter,-creator,-attachment&quot;);</span>
+<span class="nc" id="L71">	}</span>
+	
+	private final FeatureSettings featureSettings;
+	private final FeatureWidgetQueries featureWidgetQueries;
+	
+	private JiraRestClient client;
+	
+	@Autowired
+<span class="nc" id="L79">	public DefaultJiraClient(FeatureSettings featureSettings, FeatureWidgetQueries featureWidgetQueries, JiraRestClientSupplier restSupplier) {</span>
+<span class="nc" id="L80">		this.featureSettings = featureSettings;</span>
+<span class="nc" id="L81">		this.featureWidgetQueries = featureWidgetQueries;</span>
+<span class="nc" id="L82">		this.client = restSupplier.get();</span>
+<span class="nc" id="L83">	}</span>
+	
+	@Override
+	public List&lt;Issue&gt; getIssues(long startTime, int pageStart) {
+<span class="nc" id="L87">		List&lt;Issue&gt; rt = new ArrayList&lt;&gt;();</span>
+		
+<span class="nc bnc" id="L89" title="All 2 branches missed.">		if (client != null) {</span>
+			try {
+				// example &quot;1900-01-01 00:00&quot;
+<span class="nc" id="L92">				String startDateStr = QUERY_DATE_FORMAT.format(new Date(startTime));</span>
+				
+<span class="nc" id="L94">				String query = featureWidgetQueries.getStoryQuery(startDateStr,</span>
+<span class="nc" id="L95">						featureSettings.getJiraIssueTypeNames(), featureSettings.getStoryQuery());</span>
+				
+<span class="nc" id="L97">				Promise&lt;SearchResult&gt; promisedRs = client.getSearchClient().searchJql(</span>
+<span class="nc" id="L98">						query, featureSettings.getPageSize(), pageStart, DEFAULT_FIELDS);</span>
+				
+<span class="nc" id="L100">				SearchResult sr = promisedRs.claim();</span>
+
+<span class="nc" id="L102">				Iterable&lt;Issue&gt; jiraRawRs = sr.getIssues();</span>
+				
+<span class="nc bnc" id="L104" title="All 2 branches missed.">				if (jiraRawRs != null) {</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">					if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L106">						int pageEnd = Math.min(pageStart + getPageSize() - 1, sr.getTotal());</span>
+						
+<span class="nc" id="L108">						LOGGER.debug(String.format(&quot;Processing issues %d - %d out of %d&quot;, pageStart, pageEnd, sr.getTotal()));</span>
+					}
+					
+<span class="nc" id="L111">					rt = Lists.newArrayList(jiraRawRs);</span>
+				}
+<span class="nc" id="L113">			} catch (RestClientException e) {</span>
+<span class="nc bnc" id="L114" title="All 4 branches missed.">				if (e.getStatusCode().get() != null &amp;&amp; e.getStatusCode().get() == 401 ) {</span>
+<span class="nc" id="L115">					LOGGER.error(&quot;Error 401 connecting to JIRA server, your credentials are probably wrong. Note: Ensure you are using JIRA user name not your email address.&quot;);</span>
+				} else {
+<span class="nc" id="L117">					LOGGER.error(&quot;No result was available from Jira unexpectedly - defaulting to blank response. The reason for this fault is the following:&quot; + e.getCause());</span>
+				}
+<span class="nc" id="L119">				LOGGER.debug(&quot;Exception&quot;, e);</span>
+<span class="nc" id="L120">			}</span>
+		} else {
+<span class="nc" id="L122">			LOGGER.warn(&quot;Jira client setup failed. No results obtained. Check your jira setup.&quot;);</span>
+		}
+		
+<span class="nc" id="L125">		return rt;</span>
+	}
+
+	@Override
+	public List&lt;BasicProject&gt; getProjects() {
+<span class="nc" id="L130">		List&lt;BasicProject&gt; rt = new ArrayList&lt;&gt;();</span>
+		
+<span class="nc bnc" id="L132" title="All 2 branches missed.">		if (client != null) {</span>
+			try {
+<span class="nc" id="L134">				Promise&lt;Iterable&lt;BasicProject&gt;&gt; promisedRs = client.getProjectClient().getAllProjects();</span>
+				
+<span class="nc" id="L136">				Iterable&lt;BasicProject&gt; jiraRawRs = promisedRs.claim();</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">				if (jiraRawRs != null) {</span>
+<span class="nc" id="L138">					rt = Lists.newArrayList(jiraRawRs);</span>
+				}
+<span class="nc" id="L140">			} catch (RestClientException e) {</span>
+<span class="nc bnc" id="L141" title="All 4 branches missed.">				if (e.getStatusCode().get() != null &amp;&amp; e.getStatusCode().get() == 401 ) {</span>
+<span class="nc" id="L142">					LOGGER.error(&quot;Error 401 connecting to JIRA server, your credentials are probably wrong. Note: Ensure you are using JIRA user name not your email address.&quot;);</span>
+				} else {
+<span class="nc" id="L144">					LOGGER.error(&quot;No result was available from Jira unexpectedly - defaulting to blank response. The reason for this fault is the following:&quot; + e.getCause());</span>
+				}
+<span class="nc" id="L146">				LOGGER.debug(&quot;Exception&quot;, e);</span>
+<span class="nc" id="L147">			}</span>
+		} else {
+<span class="nc" id="L149">			LOGGER.warn(&quot;Jira client setup failed. No results obtained. Check your jira setup.&quot;);</span>
+		}
+		
+<span class="nc" id="L152">		return rt;</span>
+	}
+	
+	@Override
+	@SuppressWarnings(&quot;PMD.NPathComplexity&quot;)
+	public List&lt;Team&gt; getTeams() {
+<span class="nc" id="L158">	    List&lt;Team&gt; result = new ArrayList&lt;&gt;();</span>
+		
+		try {			
+<span class="nc bnc" id="L161" title="All 2 branches missed.">			URL url = new URL(featureSettings.getJiraBaseUrl() + (featureSettings.getJiraBaseUrl().endsWith(&quot;/&quot;)? &quot;&quot; : &quot;/&quot;) </span>
+						+ TEMPO_TEAMS_REST_SUFFIX);
+<span class="nc" id="L163">			URLConnection connection = null;</span>
+			
+<span class="nc bnc" id="L165" title="All 6 branches missed.">			if (featureSettings.getJiraProxyUrl() != null &amp;&amp; !featureSettings.getJiraProxyUrl().isEmpty() &amp;&amp; (featureSettings.getJiraProxyPort() != null)) {</span>
+<span class="nc" id="L166">				String fullProxyUrl = featureSettings.getJiraProxyUrl() + &quot;:&quot; + featureSettings.getJiraProxyPort();</span>
+<span class="nc" id="L167">				URL proxyUrl = new URL(fullProxyUrl);</span>
+<span class="nc" id="L168">				URI proxyUri = new URI(proxyUrl.getProtocol(), proxyUrl.getUserInfo(),</span>
+<span class="nc" id="L169">					proxyUrl.getHost(), proxyUrl.getPort(), proxyUrl.getPath(), proxyUrl.getQuery(), null);</span>
+<span class="nc" id="L170">				Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyUri.getHost(), proxyUri.getPort()));</span>
+<span class="nc" id="L171">				connection = url.openConnection(proxy);</span>
+
+<span class="nc bnc" id="L173" title="All 2 branches missed.">				if (!StringUtils.isEmpty(featureSettings.getJiraCredentials())) {</span>
+<span class="nc" id="L174">					String[] creds = (new String(Base64.decodeBase64(featureSettings.getJiraCredentials()))).split(&quot;:&quot;);</span>
+<span class="nc" id="L175">					final String uname = creds[0];</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">					final String pword = creds.length &gt; 1? creds[1] : null;</span>
+<span class="nc" id="L177">					Authenticator.setDefault(new Authenticator() {</span>
+						protected PasswordAuthentication getPasswordAuthentication() {
+<span class="nc" id="L179">							return new PasswordAuthentication(uname, pword.toCharArray());</span>
+						}
+					});
+<span class="nc" id="L182">					connection.setRequestProperty(&quot;Proxy-Authorization&quot;, &quot;Basic &quot; + featureSettings.getJiraCredentials());</span>
+				}
+<span class="nc" id="L184">			} else {</span>
+<span class="nc" id="L185">				connection = url.openConnection();</span>
+			}
+
+<span class="nc" id="L188">			HttpURLConnection request = (HttpURLConnection) connection;</span>
+<span class="nc" id="L189">			request.setRequestProperty(&quot;Authorization&quot; , &quot;Basic &quot; + featureSettings.getJiraCredentials());</span>
+<span class="nc" id="L190">			request.connect();</span>
+			
+<span class="nc" id="L192">			try (InputStreamReader streamReader = new InputStreamReader((InputStream) request.getContent(), Charset.forName(&quot;UTF-8&quot;));</span>
+<span class="nc" id="L193">			        BufferedReader inReader = new BufferedReader(streamReader)) {</span>
+<span class="nc" id="L194">			    StringBuilder sb = new StringBuilder();	    </span>
+    			int cp;
+<span class="nc bnc" id="L196" title="All 2 branches missed.">    		    while ((cp = inReader.read()) != -1) {</span>
+<span class="nc" id="L197">    				sb.append((char) cp);		      </span>
+    		    }
+    		    
+<span class="nc" id="L200">                JSONParser parser = new JSONParser();</span>
+                try {
+<span class="nc" id="L202">                    JSONArray teamsJson = (JSONArray) parser.parse(sb.toString());</span>
+                    
+<span class="nc bnc" id="L204" title="All 2 branches missed.">                    if (teamsJson != null) {</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">                        for (Object obj : teamsJson) {</span>
+<span class="nc" id="L206">                            String teamId = TOOLS.sanitizeResponse(((JSONObject) obj).get(&quot;id&quot;));</span>
+<span class="nc" id="L207">                            String teamName = TOOLS.sanitizeResponse(getJSONString((JSONObject) obj, &quot;name&quot;));</span>
+<span class="nc" id="L208">                            result.add(new Team(teamId, teamName));</span>
+<span class="nc" id="L209">                        }</span>
+                    }
+<span class="nc" id="L211">                } catch (ParseException pe) {</span>
+<span class="nc" id="L212">                    LOGGER.error(&quot;Parser exception when parsing teams&quot;, pe);</span>
+<span class="nc" id="L213">                }</span>
+<span class="nc bnc" id="L214" title="All 16 branches missed.">			}</span>
+<span class="nc" id="L215">        } catch (org.springframework.web.client.RestClientException rce) {</span>
+<span class="nc" id="L216">            LOGGER.error(&quot;Client exception when loading teams&quot;, rce);</span>
+<span class="nc" id="L217">            throw rce;</span>
+<span class="nc" id="L218">        }  catch (MalformedURLException mfe) {</span>
+<span class="nc" id="L219">            LOGGER.error(&quot;Malformed url for loading teams&quot;, mfe);</span>
+<span class="nc" id="L220">        } catch (IOException ioe) {</span>
+<span class="nc" id="L221">			LOGGER.error(&quot;IOException&quot;, ioe);</span>
+<span class="nc" id="L222">		} catch (URISyntaxException urie) {</span>
+<span class="nc" id="L223">			LOGGER.error(&quot;URISyntaxException for Jira connection&quot;, urie);</span>
+<span class="nc" id="L224">		}</span>
+		
+<span class="nc" id="L226">		return result;</span>
+	}
+	
+	private String getJSONString(JSONObject obj, String field) {
+<span class="nc" id="L230">        return ((String) obj.get(field));</span>
+    }
+
+	@Override
+	public Issue getEpic(String epicKey) {
+<span class="nc" id="L235">		List&lt;Issue&gt; rt = new ArrayList&lt;&gt;();</span>
+		
+<span class="nc bnc" id="L237" title="All 2 branches missed.">		if (client != null) {</span>
+			try {
+<span class="nc" id="L239">				String query = this.featureWidgetQueries.getEpicQuery(epicKey, &quot;epic&quot;);</span>
+				
+<span class="nc" id="L241">				Promise&lt;SearchResult&gt; promisedRs = client.getSearchClient().searchJql(</span>
+<span class="nc" id="L242">						query, featureSettings.getPageSize(), 0, DEFAULT_FIELDS);</span>
+				
+<span class="nc" id="L244">				SearchResult sr = promisedRs.claim();</span>
+				
+<span class="nc" id="L246">				Iterable&lt;Issue&gt; jiraRawRs = sr.getIssues();</span>
+				
+<span class="nc bnc" id="L248" title="All 2 branches missed.">				if (jiraRawRs != null) {</span>
+<span class="nc" id="L249">					rt = Lists.newArrayList(jiraRawRs);</span>
+				}
+<span class="nc" id="L251">			} catch (RestClientException e) {</span>
+<span class="nc bnc" id="L252" title="All 4 branches missed.">				if (e.getStatusCode().get() != null &amp;&amp; e.getStatusCode().get() == 401 ) {</span>
+<span class="nc" id="L253">					LOGGER.error(&quot;Error 401 connecting to JIRA server, your credentials are probably wrong. Note: Ensure you are using JIRA user name not your email address.&quot;);</span>
+				} else {
+<span class="nc" id="L255">					LOGGER.error(&quot;No result was available from Jira unexpectedly - defaulting to blank response. The reason for this fault is the following:&quot; + e.getCause());</span>
+				}
+<span class="nc" id="L257">				LOGGER.debug(&quot;Exception&quot;, e);</span>
+<span class="nc" id="L258">			}</span>
+		} else {
+<span class="nc" id="L260">			LOGGER.warn(&quot;Jira client setup failed. No results obtained. Check your jira setup.&quot;);</span>
+		}
+		
+<span class="nc bnc" id="L263" title="All 2 branches missed.">		return rt.isEmpty()? null : rt.iterator().next();</span>
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public List&lt;Issue&gt; getEpics(List&lt;String&gt; epicKeys) {
+<span class="nc" id="L271">		List&lt;Issue&gt; rt = new ArrayList&lt;&gt;();</span>
+		
+<span class="nc bnc" id="L273" title="All 2 branches missed.">		if (client != null) {</span>
+			try {
+<span class="nc" id="L275">				String query = this.featureWidgetQueries.getEpicQuery(epicKeys, &quot;epics&quot;);</span>
+				
+				// This could be paged too
+<span class="nc" id="L278">				int total = Integer.MAX_VALUE;</span>
+<span class="nc bnc" id="L279" title="All 2 branches missed.">				for (int j = 0; j &lt; total; j += featureSettings.getPageSize()) {</span>
+
+<span class="nc" id="L281">					Promise&lt;SearchResult&gt; promisedRs = client.getSearchClient().searchJql(</span>
+<span class="nc" id="L282">							query, featureSettings.getPageSize(), j, DEFAULT_FIELDS);</span>
+					
+<span class="nc" id="L284">					SearchResult sr = promisedRs.claim();</span>
+<span class="nc" id="L285">					total = sr.getTotal();</span>
+					
+<span class="nc" id="L287">					Iterable&lt;Issue&gt; jiraRawRs = sr.getIssues();</span>
+					
+<span class="nc bnc" id="L289" title="All 2 branches missed.">					if (jiraRawRs != null) {</span>
+<span class="nc" id="L290">						rt.addAll(Lists.newArrayList(jiraRawRs));</span>
+					}
+				}
+<span class="nc" id="L293">			} catch (RestClientException e) {</span>
+<span class="nc bnc" id="L294" title="All 4 branches missed.">				if (e.getStatusCode().get() != null &amp;&amp; e.getStatusCode().get() == 401 ) {</span>
+<span class="nc" id="L295">					LOGGER.error(&quot;Error 401 connecting to JIRA server, your credentials are probably wrong. Note: Ensure you are using JIRA user name not your email address.&quot;);</span>
+				} else {
+<span class="nc" id="L297">					LOGGER.error(&quot;No result was available from Jira unexpectedly - defaulting to blank response. The reason for this fault is the following:&quot; + e.getCause());</span>
+				}
+<span class="nc" id="L299">				LOGGER.debug(&quot;Exception&quot;, e);</span>
+<span class="nc" id="L300">			}</span>
+		} else {
+<span class="nc" id="L302">			LOGGER.warn(&quot;Jira client setup failed. No results obtained. Check your jira setup.&quot;);</span>
+		}
+		
+<span class="nc" id="L305">		return rt;</span>
+	}
+	
+	@Override
+	public int getPageSize() {
+<span class="nc" id="L310">		return featureSettings.getPageSize();</span>
+	}
+	
+	@SuppressWarnings({&quot;PMD.NPathComplexity&quot;})
+	@Override
+	public Map&lt;String, String&gt; getStatusMapping() {
+<span class="nc" id="L316">		Map&lt;String, String&gt; statusMap = new HashMap&lt;&gt;();</span>
+		
+		try {			
+<span class="nc bnc" id="L319" title="All 2 branches missed.">			URL url = new URL(featureSettings.getJiraBaseUrl() + (featureSettings.getJiraBaseUrl().endsWith(&quot;/&quot;)? &quot;&quot; : &quot;/&quot;) </span>
+<span class="nc bnc" id="L320" title="All 2 branches missed.">					+ featureSettings.getJiraQueryEndpoint() + (featureSettings.getJiraQueryEndpoint().endsWith(&quot;/&quot;)? &quot;&quot; : &quot;/&quot;) + &quot;status/&quot;);</span>
+<span class="nc" id="L321">			URLConnection connection = null;</span>
+			
+<span class="nc bnc" id="L323" title="All 6 branches missed.">			if (featureSettings.getJiraProxyUrl() != null &amp;&amp; !featureSettings.getJiraProxyUrl().isEmpty() &amp;&amp; (featureSettings.getJiraProxyPort() != null)) {</span>
+<span class="nc" id="L324">				String fullProxyUrl = featureSettings.getJiraProxyUrl() + &quot;:&quot; + featureSettings.getJiraProxyPort();</span>
+<span class="nc" id="L325">				URL proxyUrl = new URL(fullProxyUrl);</span>
+<span class="nc" id="L326">				URI proxyUri = new URI(proxyUrl.getProtocol(), proxyUrl.getUserInfo(),</span>
+<span class="nc" id="L327">					proxyUrl.getHost(), proxyUrl.getPort(), proxyUrl.getPath(), proxyUrl.getQuery(), null);</span>
+<span class="nc" id="L328">				Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyUri.getHost(), proxyUri.getPort()));</span>
+<span class="nc" id="L329">				connection = url.openConnection(proxy);</span>
+
+<span class="nc bnc" id="L331" title="All 2 branches missed.">				if (!StringUtils.isEmpty(featureSettings.getJiraCredentials())) {</span>
+<span class="nc" id="L332">					String[] creds = (new String(Base64.decodeBase64(featureSettings.getJiraCredentials()))).split(&quot;:&quot;);</span>
+<span class="nc" id="L333">					final String uname = creds[0];</span>
+<span class="nc bnc" id="L334" title="All 2 branches missed.">					final String pword = creds.length &gt; 1? creds[1] : null;</span>
+<span class="nc" id="L335">					Authenticator.setDefault(new Authenticator() {</span>
+						protected PasswordAuthentication getPasswordAuthentication() {
+<span class="nc" id="L337">							return new PasswordAuthentication(uname, pword.toCharArray());</span>
+						}
+					});
+<span class="nc" id="L340">					connection.setRequestProperty(&quot;Proxy-Authorization&quot;, &quot;Basic &quot; + featureSettings.getJiraCredentials());</span>
+				}
+<span class="nc" id="L342">			} else {</span>
+<span class="nc" id="L343">				connection = url.openConnection();</span>
+			}
+
+<span class="nc" id="L346">			HttpURLConnection request = (HttpURLConnection) connection;</span>
+<span class="nc" id="L347">			request.setRequestProperty(&quot;Authorization&quot; , &quot;Basic &quot; + featureSettings.getJiraCredentials());</span>
+<span class="nc" id="L348">			request.connect();</span>
+			
+<span class="nc" id="L350">			InputStream in = (InputStream) request.getContent();</span>
+<span class="nc" id="L351">			BufferedReader inReader = new BufferedReader(new InputStreamReader(in, Charset.forName(&quot;UTF-8&quot;)));</span>
+<span class="nc" id="L352">			StringBuilder sb = new StringBuilder();</span>
+		    
+			int cp;
+<span class="nc bnc" id="L355" title="All 2 branches missed.">		    while ((cp = inReader.read()) != -1) {</span>
+<span class="nc" id="L356">				sb.append((char) cp);		      </span>
+		    } 
+<span class="nc" id="L358">            JSONParser parser = new JSONParser();</span>
+
+            try {
+<span class="nc" id="L361">                JSONArray statuses = (JSONArray) parser.parse(sb.toString());</span>
+
+<span class="nc bnc" id="L363" title="All 2 branches missed.">                for (Object status : statuses) {</span>
+<span class="nc" id="L364">                    JSONObject jsonStatus = (JSONObject) status;</span>
+<span class="nc" id="L365">                    String statusName = (String) jsonStatus.get(&quot;name&quot;);</span>
+                    
+<span class="nc" id="L367">                    Object statusCategory = jsonStatus.get(&quot;statusCategory&quot;);</span>
+<span class="nc" id="L368">                    JSONObject jsonStatusCategory = (JSONObject) statusCategory;</span>
+<span class="nc" id="L369">                    String statusCategoryName = (String) jsonStatusCategory.get(&quot;name&quot;);</span>
+<span class="nc bnc" id="L370" title="All 2 branches missed.">					if (statusCategoryName == null) {</span>
+<span class="nc" id="L371">						LOGGER.warn(&quot;No statusCategory for status : &quot; + statusName);</span>
+<span class="nc" id="L372">						continue;</span>
+					}
+					
+<span class="nc" id="L375">					statusMap.put(statusName, statusCategoryName);					</span>
+<span class="nc" id="L376">                }</span>
+<span class="nc" id="L377">            } catch (ParseException pe) {</span>
+<span class="nc" id="L378">                LOGGER.error(&quot;Parser exception when parsing statuses&quot;, pe);</span>
+<span class="nc" id="L379">            } </span>
+<span class="nc" id="L380">        } catch (org.springframework.web.client.RestClientException rce) {</span>
+<span class="nc" id="L381">            LOGGER.error(&quot;Client exception when loading statuses&quot;, rce);</span>
+<span class="nc" id="L382">            throw rce;</span>
+<span class="nc" id="L383">        }  catch (MalformedURLException mfe) {</span>
+<span class="nc" id="L384">            LOGGER.error(&quot;Malformed url for loading statuses&quot;, mfe);</span>
+<span class="nc" id="L385">        } catch (IOException ioe) {</span>
+<span class="nc" id="L386">			LOGGER.error(&quot;IOException&quot;, ioe);</span>
+<span class="nc" id="L387">		} catch (URISyntaxException urie) {</span>
+<span class="nc" id="L388">			LOGGER.error(&quot;URISyntaxException for Jira connection&quot;, urie);</span>
+<span class="nc" id="L389">		}</span>
+		
+<span class="nc" id="L391">		return statusMap;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

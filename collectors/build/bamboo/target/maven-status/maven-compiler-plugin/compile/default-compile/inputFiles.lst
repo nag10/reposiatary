@@ -1,0 +1,10 @@
+/opt/hygiea/Hygieia/collectors/build/bamboo/src/main/java/com/capitalone/dashboard/repository/BambooJobRepository.java
+/opt/hygiea/Hygieia/collectors/build/bamboo/src/main/java/com/capitalone/dashboard/repository/BambooCollectorRepository.java
+/opt/hygiea/Hygieia/collectors/build/bamboo/src/main/java/com/capitalone/dashboard/collector/RestOperationsSupplier.java
+/opt/hygiea/Hygieia/collectors/build/bamboo/src/main/java/com/capitalone/dashboard/collector/BambooCollectorTask.java
+/opt/hygiea/Hygieia/collectors/build/bamboo/src/main/java/com/capitalone/dashboard/collector/DefaultBambooClient.java
+/opt/hygiea/Hygieia/collectors/build/bamboo/src/main/java/com/capitalone/dashboard/Application.java
+/opt/hygiea/Hygieia/collectors/build/bamboo/src/main/java/com/capitalone/dashboard/collector/BambooSettings.java
+/opt/hygiea/Hygieia/collectors/build/bamboo/src/main/java/com/capitalone/dashboard/collector/BambooClient.java
+/opt/hygiea/Hygieia/collectors/build/bamboo/src/main/java/com/capitalone/dashboard/model/BambooJob.java
+/opt/hygiea/Hygieia/collectors/build/bamboo/src/main/java/com/capitalone/dashboard/model/BambooCollector.java

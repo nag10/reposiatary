@@ -1,0 +1,8 @@
+/opt/hygiea/Hygieia/collectors/misc/chat-ops/src/main/java/com/capitalone/dashboard/collector/DefaultChatOpsClient.java
+/opt/hygiea/Hygieia/collectors/misc/chat-ops/src/main/java/com/capitalone/dashboard/repository/ChatOpsRepository.java
+/opt/hygiea/Hygieia/collectors/misc/chat-ops/src/main/java/com/capitalone/dashboard/collector/ChatOpsClient.java
+/opt/hygiea/Hygieia/collectors/misc/chat-ops/src/main/java/com/capitalone/dashboard/collector/ChatOpsSettings.java
+/opt/hygiea/Hygieia/collectors/misc/chat-ops/src/main/java/com/capitalone/dashboard/model/ChatOpsRepo.java
+/opt/hygiea/Hygieia/collectors/misc/chat-ops/src/main/java/com/capitalone/dashboard/collector/ChatOpsCollectorTask.java
+/opt/hygiea/Hygieia/collectors/misc/chat-ops/src/main/java/com/capitalone/dashboard/Application.java
+/opt/hygiea/Hygieia/collectors/misc/chat-ops/src/main/java/com/capitalone/dashboard/collector/RestOperationsSupplier.java

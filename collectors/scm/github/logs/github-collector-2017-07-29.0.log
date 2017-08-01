@@ -1,0 +1,12 @@
+2017-07-29 11:19:36,028 INFO  c.c.d.collector.CollectorTask - -----------------------------------
+2017-07-29 11:19:36,038 INFO  c.c.d.collector.CollectorTask - Starting...
+2017-07-29 11:19:36,038 INFO  c.c.d.collector.CollectorTask - -----------------------------------
+2017-07-29 11:19:36,047 INFO  c.c.d.collector.CollectorTask - Repo Count              1        0s
+2017-07-29 11:19:36,048 INFO  c.c.d.collector.CollectorTask - New Commits             1        0s
+2017-07-29 11:19:36,048 INFO  c.c.d.collector.CollectorTask - Finished                         0s
+2017-07-29 18:01:33,607 INFO  c.c.d.collector.CollectorTask - -----------------------------------
+2017-07-29 18:01:33,636 INFO  c.c.d.collector.CollectorTask - Starting...
+2017-07-29 18:01:33,636 INFO  c.c.d.collector.CollectorTask - -----------------------------------
+2017-07-29 18:01:33,651 INFO  c.c.d.collector.CollectorTask - Repo Count              1        0s
+2017-07-29 18:01:33,653 INFO  c.c.d.collector.CollectorTask - New Commits             1        0s
+2017-07-29 18:01:33,653 INFO  c.c.d.collector.CollectorTask - Finished                         0s

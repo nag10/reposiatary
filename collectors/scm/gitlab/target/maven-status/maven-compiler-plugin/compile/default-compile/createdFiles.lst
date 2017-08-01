@@ -1,0 +1,11 @@
+com/capitalone/dashboard/collecteur/DefaultGitlabGitClient$1.class
+com/capitalone/dashboard/Application.class
+com/capitalone/dashboard/model/GitlabGitRepo.class
+com/capitalone/dashboard/collecteur/GitlabCommitsResponseMapper.class
+com/capitalone/dashboard/collecteur/GitlabGitCollectorTask.class
+com/capitalone/dashboard/collecteur/GitlabGitClient.class
+com/capitalone/dashboard/collecteur/GitlabSettings.class
+com/capitalone/dashboard/collecteur/RestOperationsSupplier.class
+com/capitalone/dashboard/collecteur/GitlabUrlUtility.class
+com/capitalone/dashboard/repository/GitlabGitCollectorRepository.class
+com/capitalone/dashboard/collecteur/DefaultGitlabGitClient.class

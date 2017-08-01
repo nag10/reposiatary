@@ -1,0 +1,28 @@
+2017-07-30 05:57:21,113 ERROR c.c.d.c.GitlabCommitsResponseMapper - null
+2017-07-30 05:57:22,185 INFO  c.c.d.collector.CollectorTask - -----------------------------------
+2017-07-30 05:57:22,186 INFO  c.c.d.collector.CollectorTask - Starting...
+2017-07-30 05:57:22,187 INFO  c.c.d.collector.CollectorTask - -----------------------------------
+2017-07-30 05:57:22,202 INFO  c.c.d.collector.CollectorTask - Repo Count              1        0s
+2017-07-30 05:57:22,202 INFO  c.c.d.collector.CollectorTask - New Commits             0        0s
+2017-07-30 05:57:22,203 INFO  c.c.d.collector.CollectorTask - Finished                         0s
+2017-07-30 05:57:22,230 INFO  c.c.d.collector.CollectorTask - -----------------------------------
+2017-07-30 05:57:22,231 INFO  c.c.d.collector.CollectorTask - Starting...
+2017-07-30 05:57:22,236 INFO  c.c.d.collector.CollectorTask - -----------------------------------
+2017-07-30 05:57:22,240 INFO  c.c.d.collector.CollectorTask - Repo Count              1        0s
+2017-07-30 05:57:22,240 INFO  c.c.d.collector.CollectorTask - New Commits             1        0s
+2017-07-30 05:57:22,241 INFO  c.c.d.collector.CollectorTask - Finished                         0s
+2017-07-30 05:57:22,260 INFO  c.c.d.collector.CollectorTask - -----------------------------------
+2017-07-30 05:57:22,260 INFO  c.c.d.collector.CollectorTask - Starting...
+2017-07-30 05:57:22,260 INFO  c.c.d.collector.CollectorTask - -----------------------------------
+2017-07-30 05:57:22,263 INFO  c.c.d.collector.CollectorTask - Repo Count              1        0s
+2017-07-30 05:57:22,264 INFO  c.c.d.collector.CollectorTask - New Commits             0        0s
+2017-07-30 05:57:22,268 INFO  c.c.d.collector.CollectorTask - Finished                         0s
+2017-07-30 05:57:22,275 INFO  c.c.d.collector.CollectorTask - -----------------------------------
+2017-07-30 05:57:22,281 INFO  c.c.d.collector.CollectorTask - Starting...
+2017-07-30 05:57:22,284 INFO  c.c.d.collector.CollectorTask - -----------------------------------
+2017-07-30 05:57:22,285 INFO  c.c.d.collector.CollectorTask - Repo Count              0        0s
+2017-07-30 05:57:22,285 INFO  c.c.d.collector.CollectorTask - New Commits             0        0s
+2017-07-30 05:57:22,285 INFO  c.c.d.collector.CollectorTask - Finished                         0s
+2017-07-30 05:57:22,459 INFO  c.c.d.c.DefaultGitlabGitClient - Failed to retrieve data from: http://google.com
+2017-07-30 05:57:22,472 INFO  c.c.d.c.DefaultGitlabGitClient - Failed to retrieve data from: http://google.com
+2017-07-30 05:57:22,513 INFO  c.c.d.c.DefaultGitlabGitClient - Failed to retrieve data from: http://google.com

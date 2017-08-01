@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DefaultHudsonClient.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.capitalone.dashboard:jenkins-build-collector</a> &gt; <a href="index.source.html" class="el_package">com.capitalone.dashboard.collector</a> &gt; <span class="el_source">DefaultHudsonClient.java</span></div><h1>DefaultHudsonClient.java</h1><pre class="source lang-java linenums">package com.capitalone.dashboard.collector;
+
+import com.capitalone.dashboard.model.Build;
+import com.capitalone.dashboard.model.BuildStatus;
+import com.capitalone.dashboard.model.HudsonJob;
+import com.capitalone.dashboard.model.RepoBranch;
+import com.capitalone.dashboard.model.SCM;
+import com.capitalone.dashboard.util.Supplier;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestOperations;
+
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+/**
+ * HudsonClient implementation that uses RestTemplate and JSONSimple to
+ * fetch information from Hudson instances.
+ */
+@Component
+public class DefaultHudsonClient implements HudsonClient {
+<span class="fc" id="L52">    private static final Logger LOG = LoggerFactory.getLogger(DefaultHudsonClient.class);</span>
+
+    private final RestOperations rest;
+    private final HudsonSettings settings;
+
+    private static final String JOBS_URL_SUFFIX = &quot;/api/json?tree=jobs[name,url,builds[number,url]]&quot;;
+
+<span class="fc" id="L59">    private static final String[] CHANGE_SET_ITEMS_TREE = new String[]{</span>
+            &quot;user&quot;,
+            &quot;author[fullName]&quot;,
+            &quot;revision&quot;,
+            &quot;id&quot;,
+            &quot;msg&quot;,
+            &quot;timestamp&quot;,
+            &quot;date&quot;,
+            &quot;paths[file]&quot;
+    };
+
+<span class="fc" id="L70">    private static final String[] BUILD_DETAILS_TREE = new String[]{</span>
+            &quot;number&quot;,
+            &quot;url&quot;,
+            &quot;timestamp&quot;,
+            &quot;duration&quot;,
+            &quot;building&quot;,
+            &quot;result&quot;,
+            &quot;culprits[fullName]&quot;,
+<span class="fc" id="L78">            &quot;changeSet[items[&quot; + StringUtils.join(CHANGE_SET_ITEMS_TREE, &quot;,&quot;) + &quot;]&quot;,</span>
+            &quot;kind&quot;,
+            &quot;revisions[module,revision]]&quot;,
+            &quot;actions[lastBuiltRevision[SHA1,branch[SHA1,name]],remoteUrls]&quot;
+    };
+
+<span class="fc" id="L84">    private static final String BUILD_DETAILS_URL_SUFFIX = &quot;/api/json?tree=&quot; + StringUtils.join(BUILD_DETAILS_TREE, &quot;,&quot;);</span>
+
+    @Autowired
+<span class="fc" id="L87">    public DefaultHudsonClient(Supplier&lt;RestOperations&gt; restOperationsSupplier, HudsonSettings settings) {</span>
+<span class="fc" id="L88">        this.rest = restOperationsSupplier.get();</span>
+<span class="fc" id="L89">        this.settings = settings;</span>
+<span class="fc" id="L90">    }</span>
+
+
+    @Override
+    public Map&lt;HudsonJob, Set&lt;Build&gt;&gt; getInstanceJobs(String instanceUrl) {
+<span class="fc" id="L95">        Map&lt;HudsonJob, Set&lt;Build&gt;&gt; result = new LinkedHashMap&lt;&gt;();</span>
+        try {
+<span class="fc" id="L97">            String url = joinURL(instanceUrl, JOBS_URL_SUFFIX);</span>
+<span class="fc" id="L98">            ResponseEntity&lt;String&gt; responseEntity = makeRestCall(url);</span>
+<span class="fc" id="L99">            String returnJSON = responseEntity.getBody();</span>
+<span class="fc" id="L100">            JSONParser parser = new JSONParser();</span>
+
+            try {
+<span class="fc" id="L103">                JSONObject object = (JSONObject) parser.parse(returnJSON);</span>
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">                for (Object job : getJsonArray(object, &quot;jobs&quot;)) {</span>
+<span class="fc" id="L106">                    JSONObject jsonJob = (JSONObject) job;</span>
+
+<span class="fc" id="L108">                    final String jobName = getString(jsonJob, &quot;name&quot;);</span>
+<span class="fc" id="L109">                    final String jobURL = getString(jsonJob, &quot;url&quot;);</span>
+<span class="fc" id="L110">                    LOG.debug(&quot;Job:&quot; + jobName);</span>
+<span class="fc" id="L111">                    LOG.debug(&quot;jobURL: &quot; + jobURL);</span>
+                    
+<span class="fc" id="L113">                    HudsonJob hudsonJob = new HudsonJob();</span>
+<span class="fc" id="L114">                    hudsonJob.setInstanceUrl(instanceUrl);</span>
+<span class="fc" id="L115">                    hudsonJob.setJobName(jobName);</span>
+<span class="fc" id="L116">                    hudsonJob.setJobUrl(jobURL);</span>
+
+<span class="fc" id="L118">                    Set&lt;Build&gt; builds = new LinkedHashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">                    for (Object build : getJsonArray(jsonJob, &quot;builds&quot;)) {</span>
+<span class="fc" id="L120">                        JSONObject jsonBuild = (JSONObject) build;</span>
+
+                        // A basic Build object. This will be fleshed out later if this is a new Build.
+<span class="fc" id="L123">                        String dockerLocalHostIP = settings.getDockerLocalHostIP();</span>
+<span class="fc" id="L124">                        String buildNumber = jsonBuild.get(&quot;number&quot;).toString();</span>
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">                        if (!&quot;0&quot;.equals(buildNumber)) {</span>
+<span class="fc" id="L126">                            Build hudsonBuild = new Build();</span>
+<span class="fc" id="L127">                            hudsonBuild.setNumber(buildNumber);</span>
+<span class="fc" id="L128">                            String buildURL = getString(jsonBuild, &quot;url&quot;);</span>
+
+                            //Modify localhost if Docker Natting is being done
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">                            if (!dockerLocalHostIP.isEmpty()) {</span>
+<span class="nc" id="L132">                                buildURL = buildURL.replace(&quot;localhost&quot;, dockerLocalHostIP);</span>
+<span class="nc" id="L133">                                LOG.debug(&quot;Adding build &amp; Updated URL to map LocalHost for Docker: &quot; + buildURL);</span>
+                            } else {
+<span class="fc" id="L135">                                LOG.debug(&quot; Adding Build: &quot; + buildURL);</span>
+                            }
+
+<span class="fc" id="L138">                            hudsonBuild.setBuildUrl(buildURL);</span>
+<span class="fc" id="L139">                            builds.add(hudsonBuild);</span>
+                        }
+<span class="fc" id="L141">                    }</span>
+                    // add the builds to the job
+<span class="fc" id="L143">                    result.put(hudsonJob, builds);</span>
+<span class="fc" id="L144">                }</span>
+<span class="fc" id="L145">            } catch (ParseException e) {</span>
+<span class="fc" id="L146">                LOG.error(&quot;Parsing jobs on instance: &quot; + instanceUrl, e);</span>
+<span class="fc" id="L147">            }</span>
+<span class="nc" id="L148">        } catch (RestClientException rce) {</span>
+<span class="nc" id="L149">            LOG.error(&quot;client exception loading jobs&quot;, rce);</span>
+<span class="nc" id="L150">            throw rce;</span>
+<span class="nc" id="L151">        } catch (MalformedURLException mfe) {</span>
+<span class="nc" id="L152">            LOG.error(&quot;malformed url for loading jobs&quot;, mfe);</span>
+<span class="nc" id="L153">        } catch (URISyntaxException e1) {</span>
+<span class="nc" id="L154">        	LOG.error(&quot;wrong syntax url for loading jobs&quot;, e1);</span>
+<span class="pc" id="L155">		}</span>
+<span class="fc" id="L156">        return result;</span>
+    }
+
+    @Override
+    public Build getBuildDetails(String buildUrl, String instanceUrl) {
+        try {
+<span class="fc" id="L162">            String newUrl = rebuildJobUrl(buildUrl, instanceUrl);</span>
+<span class="fc" id="L163">            String url = joinURL(newUrl, BUILD_DETAILS_URL_SUFFIX);</span>
+<span class="fc" id="L164">            ResponseEntity&lt;String&gt; result = makeRestCall(url);</span>
+<span class="fc" id="L165">            String resultJSON = result.getBody();</span>
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">            if (StringUtils.isEmpty(resultJSON)) {</span>
+<span class="nc" id="L167">                LOG.error(&quot;Error getting build details for. URL=&quot; + url);</span>
+<span class="nc" id="L168">                return null;</span>
+            }
+<span class="fc" id="L170">            JSONParser parser = new JSONParser();</span>
+            try {
+<span class="fc" id="L172">                JSONObject buildJson = (JSONObject) parser.parse(resultJSON);</span>
+<span class="fc" id="L173">                Boolean building = (Boolean) buildJson.get(&quot;building&quot;);</span>
+                // Ignore jobs that are building
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">                if (!building) {</span>
+<span class="fc" id="L176">                    Build build = new Build();</span>
+<span class="fc" id="L177">                    build.setNumber(buildJson.get(&quot;number&quot;).toString());</span>
+<span class="fc" id="L178">                    build.setBuildUrl(buildUrl);</span>
+<span class="fc" id="L179">                    build.setTimestamp(System.currentTimeMillis());</span>
+<span class="fc" id="L180">                    build.setStartTime((Long) buildJson.get(&quot;timestamp&quot;));</span>
+<span class="fc" id="L181">                    build.setDuration((Long) buildJson.get(&quot;duration&quot;));</span>
+<span class="fc" id="L182">                    build.setEndTime(build.getStartTime() + build.getDuration());</span>
+<span class="fc" id="L183">                    build.setBuildStatus(getBuildStatus(buildJson));</span>
+<span class="fc" id="L184">                    build.setStartedBy(firstCulprit(buildJson));</span>
+<span class="pc bpc" id="L185" title="1 of 2 branches missed.">                    if (settings.isSaveLog()) {</span>
+<span class="nc" id="L186">                        build.setLog(getLog(buildUrl));</span>
+                    }
+<span class="fc" id="L188">                    addChangeSets(build, buildJson);</span>
+<span class="fc" id="L189">                    return build;</span>
+                }
+
+<span class="nc" id="L192">            } catch (ParseException e) {</span>
+<span class="nc" id="L193">                LOG.error(&quot;Parsing build: &quot; + buildUrl, e);</span>
+<span class="nc" id="L194">            }</span>
+<span class="nc" id="L195">        } catch (RestClientException rce) {</span>
+<span class="nc" id="L196">            LOG.error(&quot;Client exception loading build details: &quot; + rce.getMessage() + &quot;. URL =&quot; + buildUrl);</span>
+<span class="nc" id="L197">        } catch (MalformedURLException mfe) {</span>
+<span class="nc" id="L198">            LOG.error(&quot;Malformed url for loading build details&quot; + mfe.getMessage() + &quot;. URL =&quot; + buildUrl);</span>
+<span class="nc" id="L199">        } catch (URISyntaxException use) {</span>
+<span class="nc" id="L200">            LOG.error(&quot;Uri syntax exception for loading build details&quot; + use.getMessage() + &quot;. URL =&quot; + buildUrl);</span>
+<span class="nc" id="L201">        } catch (RuntimeException re) {</span>
+<span class="nc" id="L202">            LOG.error(&quot;Unknown error in getting build details. URL=&quot; + buildUrl, re);</span>
+<span class="nc" id="L203">        } catch (UnsupportedEncodingException unse) {</span>
+<span class="nc" id="L204">            LOG.error(&quot;Unsupported Encoding Exception in getting build details. URL=&quot; + buildUrl, unse);</span>
+<span class="nc" id="L205">        }</span>
+<span class="nc" id="L206">        return null;</span>
+    }
+
+    //This method will rebuild the API endpoint because the buildUrl obtained via Jenkins API
+    //does not save the auth user info and we need to add it back.
+    public static String rebuildJobUrl(String build, String server) throws URISyntaxException, MalformedURLException, UnsupportedEncodingException {
+<span class="fc" id="L212">        URL instanceUrl = new URL(server);</span>
+<span class="fc" id="L213">        String userInfo = instanceUrl.getUserInfo();</span>
+<span class="fc" id="L214">        String instanceProtocol = instanceUrl.getProtocol();</span>
+
+        //decode to handle spaces in the job name.
+<span class="fc" id="L217">        URL buildUrl = new URL(URLDecoder.decode(build, &quot;UTF-8&quot;));</span>
+<span class="fc" id="L218">        String buildPath = buildUrl.getPath();</span>
+
+<span class="fc" id="L220">        String host = buildUrl.getHost();</span>
+<span class="fc" id="L221">        int port = buildUrl.getPort();</span>
+<span class="fc" id="L222">        URI newUri = new URI(instanceProtocol, userInfo, host, port, buildPath, null, null);</span>
+<span class="fc" id="L223">        return newUri.toString();</span>
+    }
+
+
+    /**
+     * Grabs changeset information for the given build.
+     *
+     * @param build     a Build
+     * @param buildJson the build JSON object
+     */
+    private void addChangeSets(Build build, JSONObject buildJson) {
+<span class="fc" id="L234">        JSONObject changeSet = (JSONObject) buildJson.get(&quot;changeSet&quot;);</span>
+<span class="fc" id="L235">        String scmType = getString(changeSet, &quot;kind&quot;);</span>
+<span class="fc" id="L236">        Map&lt;String, RepoBranch&gt; revisionToUrl = new HashMap&lt;&gt;();</span>
+
+        // Build a map of revision to module (scm url). This is not always
+        // provided by the Hudson API, but we can use it if available.
+        // For git, this map is empty.
+<span class="fc bfc" id="L241" title="All 2 branches covered.">        for (Object revision : getJsonArray(changeSet, &quot;revisions&quot;)) {</span>
+<span class="fc" id="L242">            JSONObject json = (JSONObject) revision;</span>
+<span class="fc" id="L243">            RepoBranch rb = new RepoBranch();</span>
+<span class="fc" id="L244">            rb.setUrl(getString(json, &quot;module&quot;));</span>
+<span class="fc" id="L245">            rb.setType(RepoBranch.RepoType.fromString(scmType));</span>
+<span class="fc" id="L246">            revisionToUrl.put(json.get(&quot;revision&quot;).toString(), rb);</span>
+<span class="fc" id="L247">            build.getCodeRepos().add(rb);</span>
+<span class="fc" id="L248">        }</span>
+        //For git SCM, the below is to get the repoBranch
+<span class="fc" id="L250">        build.getCodeRepos().addAll(getGitRepoBranch(buildJson));</span>
+
+<span class="fc bfc" id="L252" title="All 2 branches covered.">        for (Object item : getJsonArray(changeSet, &quot;items&quot;)) {</span>
+<span class="fc" id="L253">            JSONObject jsonItem = (JSONObject) item;</span>
+<span class="fc" id="L254">            SCM scm = new SCM();</span>
+<span class="fc" id="L255">            scm.setScmAuthor(getCommitAuthor(jsonItem));</span>
+<span class="fc" id="L256">            scm.setScmCommitLog(getString(jsonItem, &quot;msg&quot;));</span>
+<span class="fc" id="L257">            scm.setScmCommitTimestamp(getCommitTimestamp(jsonItem));</span>
+<span class="fc" id="L258">            scm.setScmRevisionNumber(getRevision(jsonItem));</span>
+<span class="fc" id="L259">            RepoBranch repoBranch = revisionToUrl.get(scm.getScmRevisionNumber());</span>
+<span class="fc bfc" id="L260" title="All 2 branches covered.">            if (repoBranch != null) {</span>
+<span class="fc" id="L261">                scm.setScmUrl(repoBranch.getUrl());</span>
+<span class="fc" id="L262">                scm.setScmBranch(repoBranch.getBranch());</span>
+            }
+
+<span class="fc" id="L265">            scm.setNumberOfChanges(getJsonArray(jsonItem, &quot;paths&quot;).size());</span>
+<span class="fc" id="L266">            build.getSourceChangeSet().add(scm);</span>
+<span class="fc" id="L267">        }</span>
+<span class="fc" id="L268">    }</span>
+
+    /**
+     * Gathers repo urls, and the branch name from the last built revision.
+     * Filters out the qualifiers from the branch name and sets the unqualified branch name.
+     * We assume that all branches are in remotes/origin.
+     */
+
+    @SuppressWarnings(&quot;PMD&quot;)
+    private List&lt;RepoBranch&gt; getGitRepoBranch(JSONObject buildJson) {
+<span class="fc" id="L278">        List&lt;RepoBranch&gt; list = new ArrayList&lt;&gt;();        </span>
+        
+<span class="fc" id="L280">        JSONArray actions = getJsonArray(buildJson, &quot;actions&quot;);</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        for (Object action : actions) {</span>
+<span class="fc" id="L282">            JSONObject jsonAction = (JSONObject) action;</span>
+<span class="fc bfc" id="L283" title="All 2 branches covered.">            if (jsonAction.size() &gt; 0) {</span>
+<span class="fc" id="L284">                JSONObject lastBuiltRevision = null;</span>
+<span class="fc" id="L285">                JSONArray branches = null;</span>
+<span class="fc" id="L286">                JSONArray remoteUrls = getJsonArray ((JSONObject) action, &quot;remoteUrls&quot;);       </span>
+<span class="fc bfc" id="L287" title="All 2 branches covered.">                if (!remoteUrls.isEmpty()) {</span>
+<span class="fc" id="L288">                	lastBuiltRevision = (JSONObject) jsonAction.get(&quot;lastBuiltRevision&quot;);</span>
+                }
+<span class="fc bfc" id="L290" title="All 2 branches covered.">                if (lastBuiltRevision != null) {</span>
+<span class="fc" id="L291">                	branches = getJsonArray ((JSONObject) lastBuiltRevision, &quot;branch&quot;);</span>
+                }
+                // As of git plugin 3.0.0, when multiple repos are configured in the git plugin itself instead of MultiSCM plugin, 
+            	// they are stored unordered in a HashSet. So it's buggy and we cannot associate the correct branch information.
+                // So for now, we loop through all the remoteUrls and associate the built branch(es) with all of them.
+<span class="pc bpc" id="L296" title="1 of 4 branches missed.">                if (branches != null &amp;&amp; !branches.isEmpty()) {</span>
+<span class="fc bfc" id="L297" title="All 2 branches covered.">                	for (Object url : remoteUrls) {</span>
+<span class="fc" id="L298">                		String sUrl = (String) url;</span>
+<span class="pc bpc" id="L299" title="2 of 4 branches missed.">                		if (sUrl != null &amp;&amp; !sUrl.isEmpty()) {</span>
+<span class="fc" id="L300">                			sUrl = removeGitExtensionFromUrl(sUrl);</span>
+<span class="fc bfc" id="L301" title="All 2 branches covered.">		                	for (Object branchObj : branches) {</span>
+<span class="fc" id="L302">		                		String branchName = getString((JSONObject) branchObj, &quot;name&quot;);</span>
+<span class="pc bpc" id="L303" title="1 of 2 branches missed.">		                		if (branchName != null) {</span>
+<span class="fc" id="L304">		                			String unqualifiedBranchName = getUnqualifiedBranch(branchName);</span>
+<span class="fc" id="L305">		                			RepoBranch grb = new RepoBranch(sUrl, unqualifiedBranchName, RepoBranch.RepoType.GIT);</span>
+<span class="fc" id="L306">		                			list.add(grb);</span>
+		                		}
+<span class="fc" id="L308">		                	}</span>
+                		}
+<span class="fc" id="L310">                	}</span>
+                }
+            }
+<span class="fc" id="L313">        }</span>
+<span class="fc" id="L314">        return list;</span>
+    }
+    
+    private String removeGitExtensionFromUrl(String url) {
+<span class="fc" id="L318">    	String sUrl = url;</span>
+    	//remove .git from the urls
+<span class="pc bpc" id="L320" title="1 of 2 branches missed.">    	if (sUrl.endsWith(&quot;.git&quot;)) {</span>
+<span class="fc" id="L321">            sUrl = sUrl.substring(0, sUrl.lastIndexOf(&quot;.git&quot;));</span>
+        }
+<span class="fc" id="L323">    	return sUrl;</span>
+    }
+    
+    /**
+     * Gets the unqualified branch name given the qualified one of the following forms:
+     * 1. refs/remotes/&lt;remote name&gt;/&lt;branch name&gt;
+     * 2. remotes/&lt;remote name&gt;/&lt;branch name&gt;
+     * 3. origin/&lt;branch name&gt;
+     * 4. &lt;branch name&gt;
+     * @param qualifiedBranch
+     * @return the unqualified branch name
+     */
+        
+    private String getUnqualifiedBranch(String qualifiedBranch) {
+<span class="fc" id="L337">    	String branchName = qualifiedBranch;</span>
+<span class="fc" id="L338">    	Pattern pattern = Pattern.compile(&quot;(refs/)?remotes/[^/]+/(.*)|(origin[0-9]*/)?(.*)&quot;);</span>
+<span class="fc" id="L339">    	Matcher matcher = pattern.matcher(branchName);</span>
+<span class="pc bpc" id="L340" title="1 of 2 branches missed.">    	if(matcher.matches()) {</span>
+<span class="fc bfc" id="L341" title="All 2 branches covered.">    		if (matcher.group(2) != null) {</span>
+<span class="fc" id="L342">    			branchName = matcher.group(2);</span>
+<span class="pc bpc" id="L343" title="1 of 2 branches missed.">    		} else if (matcher.group(4) != null) {</span>
+<span class="fc" id="L344">    			branchName = matcher.group(4);</span>
+    		}
+    	}
+<span class="fc" id="L347">    	return branchName;</span>
+    }
+
+    private long getCommitTimestamp(JSONObject jsonItem) {
+<span class="pc bpc" id="L351" title="1 of 2 branches missed.">        if (jsonItem.get(&quot;timestamp&quot;) != null) {</span>
+<span class="fc" id="L352">            return (Long) jsonItem.get(&quot;timestamp&quot;);</span>
+<span class="nc bnc" id="L353" title="All 2 branches missed.">        } else if (jsonItem.get(&quot;date&quot;) != null) {</span>
+<span class="nc" id="L354">            String dateString = (String) jsonItem.get(&quot;date&quot;);</span>
+            try {
+<span class="nc" id="L356">                return new SimpleDateFormat(&quot;yyyy-MM-dd'T'HH:mm:ss.SSS&quot;).parse(dateString).getTime();</span>
+<span class="nc" id="L357">            } catch (java.text.ParseException e) {</span>
+                // Try an alternate date format...looks like this one is used by Git
+                try {
+<span class="nc" id="L360">                    return new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss Z&quot;).parse(dateString).getTime();</span>
+<span class="nc" id="L361">                } catch (java.text.ParseException e1) {</span>
+<span class="nc" id="L362">                    LOG.error(&quot;Invalid date string: &quot; + dateString, e);</span>
+                }
+            }
+        }
+<span class="nc" id="L366">        return 0;</span>
+    }
+
+    private String getString(JSONObject json, String key) {
+<span class="fc" id="L370">        return (String) json.get(key);</span>
+    }
+
+    private String getRevision(JSONObject jsonItem) {
+        // Use revision if provided, otherwise use id
+<span class="fc" id="L375">        Long revision = (Long) jsonItem.get(&quot;revision&quot;);</span>
+<span class="pc bpc" id="L376" title="1 of 2 branches missed.">        return revision == null ? getString(jsonItem, &quot;id&quot;) : revision.toString();</span>
+    }
+
+    private JSONArray getJsonArray(JSONObject json, String key) {
+<span class="fc" id="L380">        Object array = json.get(key);</span>
+<span class="fc bfc" id="L381" title="All 2 branches covered.">        return array == null ? new JSONArray() : (JSONArray) array;</span>
+    }
+
+    private String firstCulprit(JSONObject buildJson) {
+<span class="fc" id="L385">        JSONArray culprits = getJsonArray(buildJson, &quot;culprits&quot;);</span>
+<span class="fc bfc" id="L386" title="All 2 branches covered.">        if (CollectionUtils.isEmpty(culprits)) {</span>
+<span class="fc" id="L387">            return null;</span>
+        }
+<span class="fc" id="L389">        JSONObject culprit = (JSONObject) culprits.get(0);</span>
+<span class="fc" id="L390">        return getFullName(culprit);</span>
+    }
+
+    private String getFullName(JSONObject author) {
+<span class="fc" id="L394">        return getString(author, &quot;fullName&quot;);</span>
+    }
+
+    private String getCommitAuthor(JSONObject jsonItem) {
+        // Use user if provided, otherwise use author.fullName
+<span class="fc" id="L399">        JSONObject author = (JSONObject) jsonItem.get(&quot;author&quot;);</span>
+<span class="pc bpc" id="L400" title="1 of 2 branches missed.">        return author == null ? getString(jsonItem, &quot;user&quot;) : getFullName(author);</span>
+    }
+
+    private BuildStatus getBuildStatus(JSONObject buildJson) {
+<span class="fc" id="L404">        String status = buildJson.get(&quot;result&quot;).toString();</span>
+<span class="pc bpc" id="L405" title="15 of 18 branches missed.">        switch (status) {</span>
+            case &quot;SUCCESS&quot;:
+<span class="nc" id="L407">                return BuildStatus.Success;</span>
+            case &quot;UNSTABLE&quot;:
+<span class="nc" id="L409">                return BuildStatus.Unstable;</span>
+            case &quot;FAILURE&quot;:
+<span class="fc" id="L411">                return BuildStatus.Failure;</span>
+            case &quot;ABORTED&quot;:
+<span class="nc" id="L413">                return BuildStatus.Aborted;</span>
+            default:
+<span class="nc" id="L415">                return BuildStatus.Unknown;</span>
+        }
+    }
+    
+    @SuppressWarnings(&quot;PMD&quot;)
+    protected ResponseEntity&lt;String&gt; makeRestCall(String sUrl) throws MalformedURLException, URISyntaxException {
+<span class="fc" id="L421">        URI thisuri = URI.create(sUrl);</span>
+<span class="fc" id="L422">        String userInfo = thisuri.getUserInfo();</span>
+
+        //get userinfo from URI or settings (in spring properties)
+<span class="fc bfc" id="L425" title="All 2 branches covered.">        if (StringUtils.isEmpty(userInfo)) {</span>
+<span class="fc" id="L426">        	List&lt;String&gt; servers = this.settings.getServers();</span>
+<span class="fc" id="L427">        	List&lt;String&gt; usernames = this.settings.getUsernames();</span>
+<span class="fc" id="L428">        	List&lt;String&gt; apiKeys = this.settings.getApiKeys();</span>
+<span class="pc bpc" id="L429" title="2 of 6 branches missed.">        	if (CollectionUtils.isNotEmpty(servers) &amp;&amp; CollectionUtils.isNotEmpty(usernames) &amp;&amp; CollectionUtils.isNotEmpty(apiKeys)) {</span>
+<span class="fc" id="L430">        		boolean exactMatchFound = false;</span>
+<span class="pc bpc" id="L431" title="1 of 2 branches missed.">	        	for (int i = 0; i &lt; servers.size(); i++) {</span>
+<span class="pc bpc" id="L432" title="1 of 2 branches missed.">	        		if ((servers.get(i) != null)) {</span>
+<span class="fc" id="L433">	        			String domain1 = getDomain(sUrl);</span>
+<span class="fc" id="L434">	        			String domain2 = getDomain(servers.get(i));</span>
+<span class="pc bpc" id="L435" title="3 of 6 branches missed.">	        			if (StringUtils.isNotEmpty(domain1) &amp;&amp; StringUtils.isNotEmpty(domain2) &amp;&amp; domain1.equals(domain2)</span>
+<span class="pc bpc" id="L436" title="1 of 2 branches missed.">	        					&amp;&amp; getPort(sUrl) == getPort(servers.get(i))) {</span>
+<span class="fc" id="L437">	                		exactMatchFound = true;	</span>
+	        			}
+<span class="pc bpc" id="L439" title="3 of 6 branches missed.">	        			if (exactMatchFound &amp;&amp; (i &lt; usernames.size()) &amp;&amp; (i &lt; apiKeys.size()) </span>
+<span class="pc bpc" id="L440" title="2 of 4 branches missed.">	        					&amp;&amp; (StringUtils.isNotEmpty(usernames.get(i))) &amp;&amp; (StringUtils.isNotEmpty(apiKeys.get(i)))) {</span>
+<span class="fc" id="L441">	        				userInfo = usernames.get(i) + &quot;:&quot; + apiKeys.get(i);</span>
+        				}
+<span class="pc bpc" id="L443" title="1 of 2 branches missed.">	        			if (exactMatchFound) {</span>
+<span class="fc" id="L444">	        				break;</span>
+	        			}
+	        		}
+	        	}	        	
+<span class="pc bpc" id="L448" title="1 of 2 branches missed.">        		if (!exactMatchFound) {</span>
+<span class="nc" id="L449">        			LOG.warn(&quot;Credentials for the following url was not found. This could happen if the domain/subdomain/IP address &quot;</span>
+        					+ &quot;in the build url returned by Jenkins and the Jenkins instance url in your Hygieia configuration do not match: &quot;
+        					+ &quot;\&quot;&quot; + sUrl + &quot;\&quot;&quot;);
+        		}
+        	}
+        }
+        // Basic Auth only.
+<span class="fc bfc" id="L456" title="All 2 branches covered.">        if (StringUtils.isNotEmpty(userInfo)) {</span>
+<span class="fc" id="L457">            return rest.exchange(thisuri, HttpMethod.GET,</span>
+<span class="fc" id="L458">                    new HttpEntity&lt;&gt;(createHeaders(userInfo)),</span>
+                    String.class);
+        } else {
+<span class="fc" id="L461">            return rest.exchange(thisuri, HttpMethod.GET, null,</span>
+                    String.class);
+        }
+
+    }
+    
+    private String getDomain(String url) throws URISyntaxException {
+<span class="fc" id="L468">        URI uri = new URI(url);</span>
+<span class="fc" id="L469">        String domain = uri.getHost();</span>
+<span class="fc" id="L470">        return domain;</span>
+    }
+    
+    private int getPort(String url) throws URISyntaxException {
+<span class="fc" id="L474">        URI uri = new URI(url);</span>
+<span class="fc" id="L475">        return uri.getPort();</span>
+    }
+
+    protected HttpHeaders createHeaders(final String userInfo) {
+<span class="fc" id="L479">        byte[] encodedAuth = Base64.encodeBase64(</span>
+<span class="fc" id="L480">                userInfo.getBytes(StandardCharsets.US_ASCII));</span>
+<span class="fc" id="L481">        String authHeader = &quot;Basic &quot; + new String(encodedAuth);</span>
+
+<span class="fc" id="L483">        HttpHeaders headers = new HttpHeaders();</span>
+<span class="fc" id="L484">        headers.set(HttpHeaders.AUTHORIZATION, authHeader);</span>
+<span class="fc" id="L485">        return headers;</span>
+    }
+
+    protected String getLog(String buildUrl) {
+        try {
+<span class="fc" id="L490">            return makeRestCall(joinURL(buildUrl, &quot;consoleText&quot;)).getBody();</span>
+<span class="nc" id="L491">        } catch (MalformedURLException mfe) {</span>
+<span class="nc" id="L492">            LOG.error(&quot;malformed url for build log&quot;, mfe);</span>
+<span class="nc" id="L493">        } catch (URISyntaxException e) {</span>
+<span class="nc" id="L494">        	LOG.error(&quot;wrong syntax url for build log&quot;, e);</span>
+<span class="nc" id="L495">		}</span>
+
+<span class="nc" id="L497">        return &quot;&quot;;</span>
+    }
+
+    // join a base url to another path or paths - this will handle trailing or non-trailing /'s
+    public static String joinURL(String base, String... paths) throws MalformedURLException {
+<span class="fc" id="L502">        StringBuilder result = new StringBuilder(base);</span>
+<span class="fc bfc" id="L503" title="All 2 branches covered.">        for (String path : paths) {</span>
+<span class="fc" id="L504">            String p = path.replaceFirst(&quot;^(\\/)+&quot;, &quot;&quot;);</span>
+<span class="fc bfc" id="L505" title="All 2 branches covered.">            if (result.lastIndexOf(&quot;/&quot;) != result.length() - 1) {</span>
+<span class="fc" id="L506">                result.append('/');</span>
+            }
+<span class="fc" id="L508">            result.append(p);</span>
+        }
+<span class="fc" id="L510">        return result.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

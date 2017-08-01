@@ -1,0 +1,12 @@
+/opt/hygiea/Hygieia/collectors/feature/versionone/src/main/java/com/capitalone/dashboard/repository/FeatureCollectorRepository.java
+/opt/hygiea/Hygieia/collectors/feature/versionone/src/main/java/com/capitalone/dashboard/util/DateUtil.java
+/opt/hygiea/Hygieia/collectors/feature/versionone/src/main/java/com/capitalone/dashboard/Application.java
+/opt/hygiea/Hygieia/collectors/feature/versionone/src/main/java/com/capitalone/dashboard/datafactory/versionone/VersionOneDataFactory.java
+/opt/hygiea/Hygieia/collectors/feature/versionone/src/main/java/com/capitalone/dashboard/collector/TeamDataClient.java
+/opt/hygiea/Hygieia/collectors/feature/versionone/src/main/java/com/capitalone/dashboard/model/FeatureCollector.java
+/opt/hygiea/Hygieia/collectors/feature/versionone/src/main/java/com/capitalone/dashboard/collector/BaseClient.java
+/opt/hygiea/Hygieia/collectors/feature/versionone/src/main/java/com/capitalone/dashboard/collector/StoryDataClient.java
+/opt/hygiea/Hygieia/collectors/feature/versionone/src/main/java/com/capitalone/dashboard/collector/ProjectDataClient.java
+/opt/hygiea/Hygieia/collectors/feature/versionone/src/main/java/com/capitalone/dashboard/collector/FeatureCollectorTask.java
+/opt/hygiea/Hygieia/collectors/feature/versionone/src/main/java/com/capitalone/dashboard/collector/FeatureSettings.java
+/opt/hygiea/Hygieia/collectors/feature/versionone/src/main/java/com/capitalone/dashboard/datafactory/versionone/VersionOneDataFactoryImpl.java

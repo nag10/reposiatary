@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>HudsonCollectorTask.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.capitalone.dashboard:jenkins-build-collector</a> &gt; <a href="index.source.html" class="el_package">com.capitalone.dashboard.collector</a> &gt; <span class="el_source">HudsonCollectorTask.java</span></div><h1>HudsonCollectorTask.java</h1><pre class="source lang-java linenums">package com.capitalone.dashboard.collector;
+
+
+import com.capitalone.dashboard.model.Build;
+import com.capitalone.dashboard.model.CollectorItem;
+import com.capitalone.dashboard.model.CollectorType;
+import com.capitalone.dashboard.model.HudsonCollector;
+import com.capitalone.dashboard.model.HudsonJob;
+import com.capitalone.dashboard.repository.BaseCollectorRepository;
+import com.capitalone.dashboard.repository.BuildRepository;
+import com.capitalone.dashboard.repository.ComponentRepository;
+import com.capitalone.dashboard.repository.HudsonCollectorRepository;
+import com.capitalone.dashboard.repository.HudsonJobRepository;
+import org.apache.commons.lang3.StringUtils;
+import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.RestClientException;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+
+/**
+ * CollectorTask that fetches Build information from Hudson
+ */
+@Component
+public class HudsonCollectorTask extends CollectorTask&lt;HudsonCollector&gt; {
+    @SuppressWarnings(&quot;PMD.UnusedPrivateField&quot;)
+//    private static final Log LOG = LogFactory.getLog(HudsonCollectorTask.class);
+
+    private final HudsonCollectorRepository hudsonCollectorRepository;
+    private final HudsonJobRepository hudsonJobRepository;
+    private final BuildRepository buildRepository;
+    private final HudsonClient hudsonClient;
+    private final HudsonSettings hudsonSettings;
+    private final ComponentRepository dbComponentRepository;
+
+    @Autowired
+    public HudsonCollectorTask(TaskScheduler taskScheduler,
+                               HudsonCollectorRepository hudsonCollectorRepository,
+                               HudsonJobRepository hudsonJobRepository,
+                               BuildRepository buildRepository, HudsonClient hudsonClient,
+                               HudsonSettings hudsonSettings,
+                               ComponentRepository dbComponentRepository) {
+<span class="fc" id="L51">        super(taskScheduler, &quot;Hudson&quot;);</span>
+<span class="fc" id="L52">        this.hudsonCollectorRepository = hudsonCollectorRepository;</span>
+<span class="fc" id="L53">        this.hudsonJobRepository = hudsonJobRepository;</span>
+<span class="fc" id="L54">        this.buildRepository = buildRepository;</span>
+<span class="fc" id="L55">        this.hudsonClient = hudsonClient;</span>
+<span class="fc" id="L56">        this.hudsonSettings = hudsonSettings;</span>
+<span class="fc" id="L57">        this.dbComponentRepository = dbComponentRepository;</span>
+<span class="fc" id="L58">    }</span>
+
+    @Override
+    public HudsonCollector getCollector() {
+<span class="nc" id="L62">        return HudsonCollector.prototype(hudsonSettings.getServers(), hudsonSettings.getNiceNames());</span>
+    }
+
+    @Override
+    public BaseCollectorRepository&lt;HudsonCollector&gt; getCollectorRepository() {
+<span class="nc" id="L67">        return hudsonCollectorRepository;</span>
+    }
+
+    @Override
+    public String getCron() {
+<span class="nc" id="L72">        return hudsonSettings.getCron();</span>
+    }
+
+    @Override
+    public void collect(HudsonCollector collector) {
+<span class="fc" id="L77">        long start = System.currentTimeMillis();</span>
+<span class="fc" id="L78">        Set&lt;ObjectId&gt; udId = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L79">        udId.add(collector.getId());</span>
+<span class="fc" id="L80">        List&lt;HudsonJob&gt; existingJobs = hudsonJobRepository.findByCollectorIdIn(udId);</span>
+<span class="fc" id="L81">        List&lt;HudsonJob&gt; activeJobs = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L82">        List&lt;String&gt; activeServers = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L83">        activeServers.addAll(collector.getBuildServers());</span>
+
+<span class="fc" id="L85">        clean(collector, existingJobs);</span>
+
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        for (String instanceUrl : collector.getBuildServers()) {</span>
+<span class="fc" id="L88">            logBanner(instanceUrl);</span>
+            try {
+<span class="fc" id="L90">                Map&lt;HudsonJob, Set&lt;Build&gt;&gt; buildsByJob = hudsonClient</span>
+<span class="fc" id="L91">                        .getInstanceJobs(instanceUrl);</span>
+<span class="fc" id="L92">                log(&quot;Fetched jobs&quot;, start);</span>
+<span class="fc" id="L93">                activeJobs.addAll(buildsByJob.keySet());</span>
+<span class="fc" id="L94">                addNewJobs(buildsByJob.keySet(), existingJobs, collector);</span>
+<span class="fc" id="L95">                addNewBuilds(enabledJobs(collector, instanceUrl), buildsByJob);</span>
+<span class="fc" id="L96">                log(&quot;Finished&quot;, start);</span>
+<span class="nc" id="L97">            } catch (RestClientException rce) {</span>
+<span class="nc" id="L98">                activeServers.remove(instanceUrl); // since it was a rest exception, we will not delete this job  and wait for</span>
+                // rest exceptions to clear up at a later run.
+<span class="nc" id="L100">                log(&quot;Error getting jobs for: &quot; + instanceUrl, start);</span>
+<span class="fc" id="L101">            }</span>
+<span class="fc" id="L102">        }</span>
+        // Delete jobs that will be no longer collected because servers have moved etc.
+<span class="fc" id="L104">        deleteUnwantedJobs(activeJobs, existingJobs, activeServers, collector);</span>
+<span class="fc" id="L105">    }</span>
+
+    /**
+     * Clean up unused hudson/jenkins collector items
+     *
+     * @param collector    the {@link HudsonCollector}
+     * @param existingJobs
+     */
+
+    private void clean(HudsonCollector collector, List&lt;HudsonJob&gt; existingJobs) {
+<span class="fc" id="L115">        Set&lt;ObjectId&gt; uniqueIDs = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        for (com.capitalone.dashboard.model.Component comp : dbComponentRepository</span>
+<span class="fc" id="L117">                .findAll()) {</span>
+
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">            if (CollectionUtils.isEmpty(comp.getCollectorItems())) continue;</span>
+
+<span class="nc" id="L121">            List&lt;CollectorItem&gt; itemList = comp.getCollectorItems().get(CollectorType.Build);</span>
+
+<span class="nc bnc" id="L123" title="All 2 branches missed.">            if (CollectionUtils.isEmpty(itemList)) continue;</span>
+
+<span class="nc bnc" id="L125" title="All 2 branches missed.">            for (CollectorItem ci : itemList) {</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">                if (collector.getId().equals(ci.getCollectorId())) {</span>
+<span class="nc" id="L127">                    uniqueIDs.add(ci.getId());</span>
+                }
+<span class="nc" id="L129">            }</span>
+<span class="nc" id="L130">        }</span>
+<span class="fc" id="L131">        List&lt;HudsonJob&gt; stateChangeJobList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        for (HudsonJob job : existingJobs) {</span>
+<span class="pc bpc" id="L133" title="3 of 4 branches missed.">            if ((job.isEnabled() &amp;&amp; !uniqueIDs.contains(job.getId())) ||  // if it was enabled but not on a dashboard</span>
+<span class="pc bpc" id="L134" title="2 of 4 branches missed.">                    (!job.isEnabled() &amp;&amp; uniqueIDs.contains(job.getId()))) { // OR it was disabled and now on a dashboard</span>
+<span class="nc" id="L135">                job.setEnabled(uniqueIDs.contains(job.getId()));</span>
+<span class="nc" id="L136">                stateChangeJobList.add(job);</span>
+            }
+<span class="fc" id="L138">        }</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">        if (!CollectionUtils.isEmpty(stateChangeJobList)) {</span>
+<span class="nc" id="L140">            hudsonJobRepository.save(stateChangeJobList);</span>
+        }
+<span class="fc" id="L142">    }</span>
+
+    /**
+     * Delete orphaned job collector items
+     * @param activeJobs
+     * @param existingJobs
+     * @param activeServers
+     * @param collector
+     */
+    private void deleteUnwantedJobs(List&lt;HudsonJob&gt; activeJobs, List&lt;HudsonJob&gt; existingJobs, List&lt;String&gt; activeServers, HudsonCollector collector) {
+
+<span class="fc" id="L153">        List&lt;HudsonJob&gt; deleteJobList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">        for (HudsonJob job : existingJobs) {</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">            if (job.isPushed()) continue; // build servers that push jobs will not be in active servers list by design</span>
+
+            // if we have a collector item for the job in repository but it's build server is not what we collect, remove it.
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">            if (!collector.getBuildServers().contains(job.getInstanceUrl())) {</span>
+<span class="nc" id="L159">                deleteJobList.add(job);</span>
+            }
+
+            //if the collector id of the collector item for the job in the repo does not match with the collector ID, delete it.
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">            if (!job.getCollectorId().equals(collector.getId())) {</span>
+<span class="nc" id="L164">                deleteJobList.add(job);</span>
+            }
+
+            // this is to handle jobs that have been deleted from build servers. Will get 404 if we don't delete them.
+<span class="pc bpc" id="L168" title="1 of 4 branches missed.">            if (activeServers.contains(job.getInstanceUrl()) &amp;&amp; !activeJobs.contains(job)) {</span>
+<span class="fc" id="L169">                deleteJobList.add(job);</span>
+            }
+
+<span class="fc" id="L172">        }</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        if (!CollectionUtils.isEmpty(deleteJobList)) {</span>
+<span class="fc" id="L174">            hudsonJobRepository.delete(deleteJobList);</span>
+        }
+<span class="fc" id="L176">    }</span>
+
+    /**
+     * Iterates over the enabled build jobs and adds new builds to the database.
+     *
+     * @param enabledJobs list of enabled {@link HudsonJob}s
+     * @param buildsByJob maps a {@link HudsonJob} to a set of {@link Build}s.
+     */
+    private void addNewBuilds(List&lt;HudsonJob&gt; enabledJobs,
+                              Map&lt;HudsonJob, Set&lt;Build&gt;&gt; buildsByJob) {
+<span class="fc" id="L186">        long start = System.currentTimeMillis();</span>
+<span class="fc" id="L187">        int count = 0;</span>
+
+<span class="fc bfc" id="L189" title="All 2 branches covered.">        for (HudsonJob job : enabledJobs) {</span>
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">            if (job.isPushed()) continue;</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">            for (Build buildSummary : nullSafe(buildsByJob.get(job))) {</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">                if (isNewBuild(job, buildSummary)) {</span>
+<span class="fc" id="L193">                    Build build = hudsonClient.getBuildDetails(buildSummary</span>
+<span class="fc" id="L194">                            .getBuildUrl(), job.getInstanceUrl());</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">                    if (build != null) {</span>
+<span class="fc" id="L196">                        build.setCollectorItemId(job.getId());</span>
+<span class="fc" id="L197">                        buildRepository.save(build);</span>
+<span class="fc" id="L198">                        count++;</span>
+                    }
+                }
+<span class="fc" id="L201">            }</span>
+<span class="fc" id="L202">        }</span>
+<span class="fc" id="L203">        log(&quot;New builds&quot;, start, count);</span>
+<span class="fc" id="L204">    }</span>
+
+    private Set&lt;Build&gt; nullSafe(Set&lt;Build&gt; builds) {
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">        return builds == null ? new HashSet&lt;Build&gt;() : builds;</span>
+    }
+
+    /**
+     * Adds new {@link HudsonJob}s to the database as disabled jobs.
+     *
+     * @param jobs         list of {@link HudsonJob}s
+     * @param existingJobs
+     * @param collector    the {@link HudsonCollector}
+     */
+    private void addNewJobs(Set&lt;HudsonJob&gt; jobs, List&lt;HudsonJob&gt; existingJobs, HudsonCollector collector) {
+<span class="fc" id="L218">        long start = System.currentTimeMillis();</span>
+<span class="fc" id="L219">        int count = 0;</span>
+
+<span class="fc" id="L221">        List&lt;HudsonJob&gt; newJobs = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">        for (HudsonJob job : jobs) {</span>
+<span class="fc" id="L223">            HudsonJob existing = null;</span>
+<span class="pc bpc" id="L224" title="1 of 4 branches missed.">            if (!CollectionUtils.isEmpty(existingJobs) &amp;&amp; (existingJobs.contains(job))) {</span>
+<span class="fc" id="L225">                existing = existingJobs.get(existingJobs.indexOf(job));</span>
+            }
+
+<span class="fc" id="L228">            String niceName = getNiceName(job, collector);</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">            if (existing == null) {</span>
+<span class="fc" id="L230">                job.setCollectorId(collector.getId());</span>
+<span class="fc" id="L231">                job.setEnabled(false); // Do not enable for collection. Will be enabled when added to dashboard</span>
+<span class="fc" id="L232">                job.setDescription(job.getJobName());</span>
+<span class="pc bpc" id="L233" title="1 of 2 branches missed.">                if (StringUtils.isNotEmpty(niceName)) {</span>
+<span class="fc" id="L234">                    job.setNiceName(niceName);</span>
+                }
+<span class="fc" id="L236">                newJobs.add(job);</span>
+<span class="fc" id="L237">                count++;</span>
+<span class="pc bpc" id="L238" title="3 of 4 branches missed.">            } else if (StringUtils.isEmpty(existing.getNiceName()) &amp;&amp; StringUtils.isNotEmpty(niceName)) {</span>
+<span class="nc" id="L239">                existing.setNiceName(niceName);</span>
+<span class="nc" id="L240">                hudsonJobRepository.save(existing);</span>
+            }
+<span class="fc" id="L242">        }</span>
+        //save all in one shot
+<span class="fc bfc" id="L244" title="All 2 branches covered.">        if (!CollectionUtils.isEmpty(newJobs)) {</span>
+<span class="fc" id="L245">            hudsonJobRepository.save(newJobs);</span>
+        }
+<span class="fc" id="L247">        log(&quot;New jobs&quot;, start, count);</span>
+<span class="fc" id="L248">    }</span>
+
+    private String getNiceName(HudsonJob job, HudsonCollector collector) {
+<span class="pc bpc" id="L251" title="1 of 2 branches missed.">        if (CollectionUtils.isEmpty(collector.getBuildServers())) return &quot;&quot;;</span>
+<span class="fc" id="L252">        List&lt;String&gt; servers = collector.getBuildServers();</span>
+<span class="fc" id="L253">        List&lt;String&gt; niceNames = collector.getNiceNames();</span>
+<span class="pc bpc" id="L254" title="1 of 2 branches missed.">        if (CollectionUtils.isEmpty(niceNames)) return &quot;&quot;;</span>
+<span class="pc bpc" id="L255" title="1 of 2 branches missed.">        for (int i = 0; i &lt; servers.size(); i++) {</span>
+<span class="pc bpc" id="L256" title="2 of 4 branches missed.">            if (servers.get(i).equalsIgnoreCase(job.getInstanceUrl()) &amp;&amp; (niceNames.size() &gt; i)) {</span>
+<span class="fc" id="L257">                return niceNames.get(i);</span>
+            }
+        }
+<span class="nc" id="L260">        return &quot;&quot;;</span>
+    }
+
+    private List&lt;HudsonJob&gt; enabledJobs(HudsonCollector collector,
+                                        String instanceUrl) {
+<span class="fc" id="L265">        return hudsonJobRepository.findEnabledJobs(collector.getId(),</span>
+                instanceUrl);
+    }
+
+    @SuppressWarnings(&quot;unused&quot;)
+	private HudsonJob getExistingJob(HudsonCollector collector, HudsonJob job) {
+<span class="nc" id="L271">        return hudsonJobRepository.findJob(collector.getId(),</span>
+<span class="nc" id="L272">                job.getInstanceUrl(), job.getJobName());</span>
+    }
+
+    private boolean isNewBuild(HudsonJob job, Build build) {
+<span class="fc bfc" id="L276" title="All 2 branches covered.">        return buildRepository.findByCollectorItemIdAndNumber(job.getId(),</span>
+<span class="fc" id="L277">                build.getNumber()) == null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

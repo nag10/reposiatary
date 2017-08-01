@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GitlabGitCollectorTask.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.capitalone.dashboard:gitlab-git-collector</a> &gt; <a href="index.source.html" class="el_package">com.capitalone.dashboard.collecteur</a> &gt; <span class="el_source">GitlabGitCollectorTask.java</span></div><h1>GitlabGitCollectorTask.java</h1><pre class="source lang-java linenums">package com.capitalone.dashboard.collecteur;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.stereotype.Component;
+
+import com.capitalone.dashboard.collector.CollectorTask;
+import com.capitalone.dashboard.model.Collector;
+import com.capitalone.dashboard.model.CollectorItem;
+import com.capitalone.dashboard.model.CollectorType;
+import com.capitalone.dashboard.model.Commit;
+import com.capitalone.dashboard.model.GitlabGitRepo;
+import com.capitalone.dashboard.repository.BaseCollectorRepository;
+import com.capitalone.dashboard.repository.CommitRepository;
+import com.capitalone.dashboard.repository.ComponentRepository;
+import com.capitalone.dashboard.repository.GitlabGitCollectorRepository;
+
+/**
+ * Created by benathmane on 23/06/16.
+ */
+
+/**
+ * CollectorTask that fetches Commit information from Gitlab
+ */
+@Component
+public class GitlabGitCollectorTask  extends CollectorTask&lt;Collector&gt; {
+<span class="fc" id="L35">    private static final Log LOG = LogFactory.getLog(GitlabGitCollectorTask.class);</span>
+
+    private final BaseCollectorRepository&lt;Collector&gt; collectorRepository;
+    private final GitlabGitCollectorRepository gitlabGitCollectorRepository;
+    private final GitlabSettings gitlabSettings;
+    private final DefaultGitlabGitClient defaultGitlabGitClient;
+    private final ComponentRepository dbComponentRepository;
+    private final CommitRepository commitRepository;
+
+
+    @Autowired
+    public GitlabGitCollectorTask(TaskScheduler taskScheduler,
+                                  BaseCollectorRepository&lt;Collector&gt; collectorRepository,
+                                  GitlabSettings gitlabSettings,
+                                  CommitRepository commitRepository,
+                                  GitlabGitCollectorRepository gitlabGitCollectorRepository,
+                                  DefaultGitlabGitClient defaultGitlabGitClient,
+                                  ComponentRepository dbComponentRepository
+    ) {
+<span class="fc" id="L54">        super(taskScheduler, &quot;Gitlab&quot;);</span>
+<span class="fc" id="L55">        this.collectorRepository = collectorRepository;</span>
+<span class="fc" id="L56">        this.gitlabSettings = gitlabSettings;</span>
+<span class="fc" id="L57">        this.commitRepository = commitRepository;</span>
+<span class="fc" id="L58">        this.gitlabGitCollectorRepository = gitlabGitCollectorRepository;</span>
+<span class="fc" id="L59">        this.defaultGitlabGitClient = defaultGitlabGitClient;</span>
+<span class="fc" id="L60">        this.dbComponentRepository = dbComponentRepository;</span>
+<span class="fc" id="L61">    }</span>
+
+	@Override
+	public Collector getCollector() {
+<span class="fc" id="L65">		Collector protoType = new Collector();</span>
+<span class="fc" id="L66">		protoType.setName(&quot;Gitlab&quot;);</span>
+<span class="fc" id="L67">		protoType.setCollectorType(CollectorType.SCM);</span>
+<span class="fc" id="L68">		protoType.setOnline(true);</span>
+<span class="fc" id="L69">		protoType.setEnabled(true);</span>
+<span class="fc" id="L70">		return protoType;</span>
+	}
+
+    @Override
+    public BaseCollectorRepository&lt;Collector&gt; getCollectorRepository() {
+<span class="fc" id="L75">        return collectorRepository;</span>
+    }
+
+    @Override
+    public String getCron() {
+<span class="fc" id="L80">        return gitlabSettings.getCron();</span>
+    }
+
+    @Override
+    public void collect(Collector collector) {
+<span class="fc" id="L85">        logBanner(&quot;Starting...&quot;);</span>
+<span class="fc" id="L86">        long start = System.currentTimeMillis();</span>
+<span class="fc" id="L87">        int repoCount = 0;</span>
+<span class="fc" id="L88">        int commitCount = 0;</span>
+
+<span class="fc" id="L90">        clean(collector);</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        for (GitlabGitRepo repo : enabledRepos(collector)) {</span>
+<span class="fc" id="L92">			boolean firstRun = false;</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">			if (repo.getLastUpdated() == 0)</span>
+<span class="fc" id="L94">				firstRun = true;</span>
+<span class="fc" id="L95">			repo.setLastUpdated(System.currentTimeMillis());</span>
+<span class="fc" id="L96">			repo.removeLastUpdateDate();</span>
+<span class="fc" id="L97">			gitlabGitCollectorRepository.save(repo);</span>
+<span class="fc" id="L98">			List&lt;Commit&gt; commits = defaultGitlabGitClient.getCommits(repo, firstRun);</span>
+<span class="fc" id="L99">			commitCount = saveNewCommits(commitCount, repo, commits);</span>
+<span class="fc" id="L100">			repoCount++;</span>
+<span class="fc" id="L101">        }</span>
+<span class="fc" id="L102">        log(&quot;Repo Count&quot;, start, repoCount);</span>
+<span class="fc" id="L103">        log(&quot;New Commits&quot;, start, commitCount);</span>
+<span class="fc" id="L104">        log(&quot;Finished&quot;, start);</span>
+<span class="fc" id="L105">    }</span>
+
+	private int saveNewCommits(int commitCount, GitlabGitRepo repo, List&lt;Commit&gt; commits) {
+<span class="fc" id="L108">		int totalCommitCount = commitCount;</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">		for (Commit commit : commits) {</span>
+<span class="fc" id="L110">			LOG.debug(commit.getTimestamp() + &quot;:::&quot; + commit.getScmCommitLog());</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">			if (isNewCommit(repo, commit)) {</span>
+<span class="fc" id="L112">				commit.setCollectorItemId(repo.getId());</span>
+<span class="fc" id="L113">				commitRepository.save(commit);</span>
+<span class="fc" id="L114">				totalCommitCount++;</span>
+			}
+<span class="fc" id="L116">		}</span>
+<span class="fc" id="L117">		return totalCommitCount;</span>
+	}
+
+	@SuppressWarnings(&quot;PMD.AvoidDeeplyNestedIfStmts&quot;) // agreed, fixme
+	private void clean(Collector collector) {
+<span class="fc" id="L122">		Set&lt;ObjectId&gt; uniqueIDs = new HashSet&lt;ObjectId&gt;();</span>
+		/**
+		 * Logic: For each component, retrieve the collector item list of the
+		 * type SCM. Store their IDs in a unique set ONLY if their collector IDs
+		 * match with GitHub collectors ID.
+		 */
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">		for (com.capitalone.dashboard.model.Component comp : dbComponentRepository.findAll()) {</span>
+<span class="nc bnc" id="L129" title="All 4 branches missed.">			if (comp.getCollectorItems() != null &amp;&amp; !comp.getCollectorItems().isEmpty()) {</span>
+<span class="nc" id="L130">				List&lt;CollectorItem&gt; itemList = comp.getCollectorItems().get(CollectorType.SCM);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">				if (itemList != null) {</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">					for (CollectorItem ci : itemList) {</span>
+<span class="nc bnc" id="L133" title="All 4 branches missed.">						if (ci != null &amp;&amp; ci.getCollectorId().equals(collector.getId())) {</span>
+<span class="nc" id="L134">							uniqueIDs.add(ci.getId());</span>
+						}
+<span class="nc" id="L136">					}</span>
+				}
+			}
+<span class="nc" id="L139">		}</span>
+
+		/**
+		 * Logic: Get all the collector items from the collector_item collection
+		 * for this collector. If their id is in the unique set (above), keep
+		 * them enabled; else, disable them.
+		 */
+<span class="fc" id="L146">		List&lt;GitlabGitRepo&gt; repoList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L147">		Set&lt;ObjectId&gt; gitID = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L148">		gitID.add(collector.getId());</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">		for (GitlabGitRepo repo : gitlabGitCollectorRepository.findByCollectorIdIn(gitID)) {</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">			if (repo != null) {</span>
+<span class="nc" id="L151">				repo.setEnabled(uniqueIDs.contains(repo.getId()));</span>
+<span class="nc" id="L152">				repoList.add(repo);</span>
+			}
+<span class="nc" id="L154">		}</span>
+<span class="fc" id="L155">		gitlabGitCollectorRepository.save(repoList);</span>
+<span class="fc" id="L156">	}</span>
+
+
+
+    private List&lt;GitlabGitRepo&gt; enabledRepos(Collector collector) {
+<span class="fc" id="L161">        return gitlabGitCollectorRepository.findEnabledGitlabRepos(collector.getId());</span>
+    }
+
+	private boolean isNewCommit(GitlabGitRepo repo, Commit commit) {
+<span class="fc bfc" id="L165" title="All 2 branches covered.">		return commitRepository.findByCollectorItemIdAndScmRevisionNumber(repo.getId(),</span>
+<span class="fc" id="L166">				commit.getScmRevisionNumber()) == null;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

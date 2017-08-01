@@ -1,0 +1,2 @@
+/opt/hygiea/Hygieia/collectors/scm/github/src/test/java/com/capitalone/dashboard/model/GitHubRepoTests.java
+/opt/hygiea/Hygieia/collectors/scm/github/src/test/java/com/capitalone/dashboard/collector/GitHubCollectorTaskTest.java

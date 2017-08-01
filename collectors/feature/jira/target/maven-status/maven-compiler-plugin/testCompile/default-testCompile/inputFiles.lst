@@ -1,0 +1,4 @@
+/opt/hygiea/Hygieia/collectors/feature/jira/src/test/java/com/capitalone/dashboard/util/ClientUtilTest.java
+/opt/hygiea/Hygieia/collectors/feature/jira/src/test/java/com/capitalone/dashboard/client/team/TeamDataClientImplTest.java
+/opt/hygiea/Hygieia/collectors/feature/jira/src/test/java/com/capitalone/dashboard/client/project/ProjectDataClientImplTest.java
+/opt/hygiea/Hygieia/collectors/feature/jira/src/test/java/com/capitalone/dashboard/client/story/StoryDataClientImplTests.java
