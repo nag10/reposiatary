@@ -1,0 +1,13 @@
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/util/EncryptionTests.java
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/repository/ScopeRepositoryTest.java
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/MarkdownTest.java
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/event/CommitEventListenerTest.java
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/repository/FongoBaseRepositoryTest.java
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/repository/FongoConfig.java
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/repository/DashboardCreateTests.java
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/util/GitBranchSpecTest.java
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/model/DashboardTest.java
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/repository/CollectorTaskTests.java
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/repository/ScopeOwnerRepositoryTest.java
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/repository/FeatureRepositoryTest.java
+/opt/hygiea/Hygieia/core/src/test/java/com/capitalone/dashboard/repository/AuthenticationRepositoryTest.java

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CollectorItem.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.capitalone.dashboard:core</a> &gt; <a href="index.source.html" class="el_package">com.capitalone.dashboard.model</a> &gt; <span class="el_source">CollectorItem.java</span></div><h1>CollectorItem.java</h1><pre class="source lang-java linenums">package com.capitalone.dashboard.model;
+
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * &lt;p&gt;
+ *      Represents a unique collection in an external tool. For example, for a CI tool
+ *      the collector item would be a Job. For a project management tool, the collector item
+ *      might be a Scope.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ *      Each {@link Collector} is responsible for specifying how it's {@link CollectorItem}s are
+ *      uniquely identified by storing key/value pairs in the options Map. The description field will
+ *      be visible to users in the UI to aid in selecting the correct {@link CollectorItem} for their dashboard.
+ *      Ideally, the description will be unique for a given {@link Collector}.
+ * &lt;/p&gt;
+ */
+@Document(collection=&quot;collector_items&quot;)
+<span class="fc" id="L24">public class CollectorItem extends BaseModel {</span>
+
+    private String description;
+    private String niceName;
+    private boolean enabled;
+    private boolean pushed;
+    private ObjectId collectorId;
+    private long lastUpdated;
+<span class="fc" id="L32">    private Map&lt;String,Object&gt; options = new HashMap&lt;&gt;();</span>
+
+    @Transient
+    private Collector collector;
+
+    public String getDescription() {
+<span class="fc" id="L38">        return description;</span>
+    }
+
+    public void setDescription(String description) {
+<span class="fc" id="L42">        this.description = description;</span>
+<span class="fc" id="L43">    }</span>
+
+    public boolean isEnabled() {
+<span class="nc" id="L46">        return enabled;</span>
+    }
+
+    public void setEnabled(boolean enabled) {
+<span class="fc" id="L50">        this.enabled = enabled;</span>
+<span class="fc" id="L51">    }</span>
+
+    public ObjectId getCollectorId() {
+<span class="fc" id="L54">        return collectorId;</span>
+    }
+
+    public void setCollectorId(ObjectId collectorId) {
+<span class="fc" id="L58">        this.collectorId = collectorId;</span>
+<span class="fc" id="L59">    }</span>
+
+    public Collector getCollector() {
+<span class="nc" id="L62">        return collector;</span>
+    }
+
+    public void setCollector(Collector collector) {
+<span class="fc" id="L66">        this.collector = collector;</span>
+<span class="fc" id="L67">    }</span>
+
+    public Map&lt;String, Object&gt; getOptions() {
+<span class="fc" id="L70">        return options;</span>
+    }
+
+    public boolean isPushed() {
+<span class="nc" id="L74">        return pushed;</span>
+    }
+
+    public void setPushed(boolean pushed) {
+<span class="nc" id="L78">        this.pushed = pushed;</span>
+<span class="nc" id="L79">    }</span>
+
+    public long getLastUpdated() {
+<span class="nc" id="L82">        return lastUpdated;</span>
+    }
+
+    public void setLastUpdated(long lastUpdated) {
+<span class="nc" id="L86">        this.lastUpdated = lastUpdated;</span>
+<span class="nc" id="L87">    }</span>
+
+    public String getNiceName() {
+<span class="nc" id="L90">        return niceName;</span>
+    }
+
+    public void setNiceName(String niceName) {
+<span class="nc" id="L94">        this.niceName = niceName;</span>
+<span class="nc" id="L95">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

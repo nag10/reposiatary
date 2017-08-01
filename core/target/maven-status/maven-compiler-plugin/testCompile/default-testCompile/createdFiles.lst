@@ -1,0 +1,15 @@
+com/capitalone/dashboard/util/EncryptionTests.class
+com/capitalone/dashboard/repository/FongoConfig.class
+com/capitalone/dashboard/repository/ScopeOwnerRepositoryTest.class
+com/capitalone/dashboard/repository/FongoBaseRepositoryTest.class
+com/capitalone/dashboard/MarkdownTest$1.class
+com/capitalone/dashboard/repository/AuthenticationRepositoryTest.class
+com/capitalone/dashboard/event/CommitEventListenerTest.class
+com/capitalone/dashboard/repository/DashboardCreateTests.class
+com/capitalone/dashboard/repository/ScopeRepositoryTest.class
+com/capitalone/dashboard/model/DashboardTest.class
+com/capitalone/dashboard/repository/FeatureRepositoryTest.class
+com/capitalone/dashboard/util/GitBranchSpecTest.class
+com/capitalone/dashboard/repository/CollectorTaskTests$TestCollectorTask.class
+com/capitalone/dashboard/MarkdownTest.class
+com/capitalone/dashboard/repository/CollectorTaskTests.class

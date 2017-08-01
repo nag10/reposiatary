@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PipelineUtils.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.capitalone.dashboard:core</a> &gt; <a href="index.source.html" class="el_package">com.capitalone.dashboard.util</a> &gt; <span class="el_source">PipelineUtils.java</span></div><h1>PipelineUtils.java</h1><pre class="source lang-java linenums">package com.capitalone.dashboard.util;
+
+import com.capitalone.dashboard.model.PipelineCommit;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+public final class PipelineUtils {
+
+<span class="nc" id="L11">    private PipelineUtils(){</span>
+
+<span class="nc" id="L13">    }</span>
+
+    public static Map&lt;String, PipelineCommit&gt; commitSetToMap(Set&lt;PipelineCommit&gt; set){
+<span class="nc" id="L16">        Map&lt;String, PipelineCommit&gt; returnMap = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">        for(PipelineCommit commit : set){</span>
+<span class="nc" id="L18">            returnMap.put(commit.getScmRevisionNumber(), commit);</span>
+<span class="nc" id="L19">        }</span>
+<span class="nc" id="L20">        return returnMap;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

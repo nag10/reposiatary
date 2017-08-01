@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Pipeline.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.capitalone.dashboard:core</a> &gt; <a href="index.source.html" class="el_package">com.capitalone.dashboard.model</a> &gt; <span class="el_source">Pipeline.java</span></div><h1>Pipeline.java</h1><pre class="source lang-java linenums">package com.capitalone.dashboard.model;
+
+import com.capitalone.dashboard.util.PipelineUtils;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.*;
+
+/**
+ * Document containing the details of a Pipeline for a TeamDashboardCollectorItem
+ */
+@Document(collection=&quot;pipelines&quot;)
+<span class="fc" id="L13">public class Pipeline extends BaseModel{</span>
+    /**
+     * {@link CollectorItem} teamdashboard collector item id
+     * */
+    private ObjectId collectorItemId;
+
+    /**
+     * Map of environment name and stage object
+     * */
+<span class="fc" id="L22">    private Map&lt;String, EnvironmentStage&gt; stages = new HashMap&lt;&gt;();</span>
+
+    /**
+     * not including this in the map above because the enum allows us to
+     * use ordinals to iterate through pipeline progression
+     * */
+<span class="fc" id="L28">    private Set&lt;Build&gt; failedBuilds = new HashSet&lt;&gt;();</span>
+
+    public ObjectId getCollectorItemId() {
+<span class="nc" id="L31">        return collectorItemId;</span>
+    }
+
+    public void setCollectorItemId(ObjectId collectorItemId) {
+<span class="nc" id="L35">        this.collectorItemId = collectorItemId;</span>
+<span class="nc" id="L36">    }</span>
+
+    public Map&lt;String, EnvironmentStage&gt; getStages() {
+<span class="fc" id="L39">        return stages;</span>
+    }
+
+    public void setStages(Map&lt;String, EnvironmentStage&gt; stages) {
+<span class="nc" id="L43">        this.stages = stages;</span>
+<span class="nc" id="L44">    }</span>
+
+    /**
+     * Adds a commit to a given stage.  Will create a new stage if it doesn't exist.
+     * @param stage
+     * @param commit
+     */
+    public void addCommit(String stage, PipelineCommit commit){
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        if(!this.getStages().containsKey(stage)){</span>
+<span class="fc" id="L53">            this.getStages().put(stage, new EnvironmentStage());</span>
+        }
+<span class="fc" id="L55">        this.getStages().get(stage).getCommits().add(commit);</span>
+<span class="fc" id="L56">    }</span>
+
+    public Set&lt;Build&gt; getFailedBuilds() {
+<span class="nc" id="L59">        return failedBuilds;</span>
+    }
+
+    public void setFailedBuilds(Set&lt;Build&gt; failedBuilds) {
+<span class="nc" id="L63">        this.failedBuilds = failedBuilds;</span>
+<span class="nc" id="L64">    }</span>
+
+    public void addFailedBuild(Build failedBuild){
+<span class="nc" id="L67">        this.getFailedBuilds().add(failedBuild);</span>
+<span class="nc" id="L68">    }</span>
+
+    /**
+     * Gets all pipeline commits as a map of scmrevision number, pipelinecommit for a given stage.
+     *
+     * uses a case insensitive map of the pipeline stage names due tot he way the UI currently stores mapped environments
+     * with lowercase for the stage type and the canonical name
+     * @param stage
+     * @return
+     */
+    public Map&lt;String, PipelineCommit&gt; getCommitsByStage(String stage){
+
+<span class="nc" id="L80">        Map&lt;String, EnvironmentStage&gt; caseInsensitiveMap = new TreeMap&lt;&gt;(String.CASE_INSENSITIVE_ORDER);</span>
+<span class="nc" id="L81">        caseInsensitiveMap.putAll(stages);</span>
+<span class="nc" id="L82">        EnvironmentStage pipelineStage = caseInsensitiveMap.get(stage);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if(pipelineStage == null) {</span>
+<span class="nc" id="L84">            return new HashMap&lt;&gt;();</span>
+        }
+
+<span class="nc" id="L87">        Map&lt;String, PipelineCommit&gt; commitsByStage = PipelineUtils.commitSetToMap(pipelineStage.getCommits());</span>
+<span class="nc" id="L88">        return commitsByStage;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
