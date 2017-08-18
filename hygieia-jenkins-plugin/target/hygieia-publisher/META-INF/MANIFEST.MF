@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Built-By: root
+Created-By: Apache Maven
+Build-Jdk: 1.8.0_131
+Extension-Name: hygieia-publisher
+Specification-Title: A Build status publisher that notifies Hygieia
+Implementation-Title: hygieia-publisher
+Implementation-Version: 1.5-SNAPSHOT
+Group-Id: org.jenkins-ci.plugins
+Short-Name: hygieia-publisher
+Long-Name: Hygieia Publisher Plugin
+Url: https://github.com/capitalone/Hygieia
+Plugin-Version: 1.5-SNAPSHOT (private-633f8e30-root)
+Hudson-Version: 1.567
+Jenkins-Version: 1.567
+Plugin-Dependencies: git:2.5.0,multiple-scms:0.6,subversion:2.6
+Plugin-Developers: Tapabrata "Topo" Pal:tabladrum:tapabrata.pal@capita
+ lone.com
+

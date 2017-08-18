@@ -1,0 +1,6 @@
+/opt/hygiea/Hygieia/hygieia-jenkins-plugin/src/test/java/jenkins/plugins/hygieia/HygieiaPublisherTest.java
+/opt/hygiea/Hygieia/hygieia-jenkins-plugin/src/test/java/jenkins/plugins/hygieia/HygieiaPublisherStub.java
+/opt/hygiea/Hygieia/hygieia-jenkins-plugin/target/inject-tests/InjectedTest.java
+/opt/hygiea/Hygieia/hygieia-jenkins-plugin/src/test/java/jenkins/plugins/hygieia/DefaultHygieiaServiceStub.java
+/opt/hygiea/Hygieia/hygieia-jenkins-plugin/src/test/java/jenkins/plugins/hygieia/DefaultHygieiaServiceTest.java
+/opt/hygiea/Hygieia/hygieia-jenkins-plugin/src/test/java/jenkins/plugins/hygieia/HttpClientStub.java
